@@ -57,6 +57,8 @@
 - `autumn/app.js`：阶段筛选、备注、核对清单、本地保存与打印。
 - `autumn/energy.js`：行驶窗口和夜耗粗算。容量/夜耗未知时不生成夜间SOC结论。
 - `autumn/route-map.js` / `route-map.css`：与西藏路书相同形式的公路地图，按Day分色、日期筛选、放大滚动和高清PNG导出。左侧江门往返，右侧赣皖游玩区域。
+- `autumn/places.js`：统一地名的省、市、县归属，供每日行程、地图地名表和地图搜索使用。
+- `autumn/itinerary.css`：每日行程固定列布局，阶段标签与展开按钮对齐。
 - `autumn/map-model.js`：按稳定行程ID映射路线，随15/16/17天版本调整Day编号。
 - `autumn/map-data.json` / `map-sources.json`：缓存的OSM公路、河段、地名节点与OSRM参考路线及来源记录。WGS84，非实时导航；节点不是已经核验的停车场。
 - `tibet/`：原gh-pages线上西藏页面完整快照，源提交 `f415d3d4a474b9680cbb9e0ced9d02985f2ce75b`，包含样式、脚本、图片。

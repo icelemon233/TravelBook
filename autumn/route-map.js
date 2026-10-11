@@ -1,12 +1,13 @@
 import {mapDays,roadLeg,selectedMapDays} from './map-model.js';
+import {places} from './places.js';
 
-const WIDTH=1200, HEIGHT=930;
+const WIDTH=1200, HEIGHT=974;
 const INK='#273b30', MUTED='#667164', PAPER='#f7f4eb';
 const panels=[
-  {x:30,y:128,w:350,h:590,bounds:[112.5,22.15,119.1,31.0],title:'全程 · 江门往返',step:2,
+  {x:30,y:172,w:350,h:590,bounds:[112.5,22.15,119.1,31.0],title:'全程 · 江门往返',step:2,
     labels:['jiangmen','shaoguan','taihe','fuliang','chaji','jingdezhen'],
     offsets:{jiangmen:[14,20],shaoguan:[14,5],taihe:[14,5],fuliang:[-20,-12],jingdezhen:[-20,24],chaji:[-18,-12]}},
-  {x:410,y:128,w:760,h:590,bounds:[117.0,29.14,118.9,30.73],title:'游玩区域 · 赣东北与皖南',step:.5,
+  {x:410,y:172,w:760,h:590,bounds:[117.0,29.14,118.9,30.73],title:'游玩区域 · 赣东北与皖南',step:.5,
     labels:['fuliang','jingdezhen','yaoli','jujing','qinghua','hongguan','zhangcun','shendu','yangchan','chaji','taohuatan','shexian'],
     offsets:{fuliang:[-18,-12],jingdezhen:[-13,28],yaoli:[-15,-17],jujing:[-45,5],qinghua:[-55,26],hongguan:[8,-17],zhangcun:[14,28],
       shendu:[-38,32],yangchan:[20,-17],chaji:[-65,-12],taohuatan:[12,22],shexian:[-18,-15]}}
@@ -50,6 +51,8 @@ export function drawRouteMap(canvas,data,plan,selected='all'){
   const days=mapDays(plan),shown=selectedMapDays(plan,selected),active=shown[0];
   text(ctx,'赣皖自驾 · 公路路线图',32,42,25);
   text(ctx,`${plan.length}天方案 · ${selected==='all'?'全部行程':`Day ${active.number} · ${active.route}`}`,32,74,16,MUTED);
+  text(ctx,'广东省：江门市、韶关市    江西省：吉安市（泰和县）、景德镇市（浮梁县／瑶里）',32,100,13,MUTED);
+  text(ctx,'江西省：上饶市婺源县（菊径／清华／虹关／漳村）    安徽省：黄山市歙县（深渡／阳产）、宣城市泾县（查济／桃花潭）',32,122,13,MUTED);
   text(ctx,'北 N ↑',1168,42,17,INK,'right');
   for(const panel of panels){
     const project=projection(panel);
@@ -98,16 +101,16 @@ export function drawRouteMap(canvas,data,plan,selected='all'){
     }
     ctx.restore();ctx.strokeStyle='#c8cfbc';ctx.lineWidth=1;ctx.strokeRect(panel.x,panel.y,panel.w,panel.h);
   }
-  text(ctx,'实线：去程与游玩   虚线：返程／可选支线   圆环：原地休整',32,749,14,MUTED);
+  text(ctx,'实线：去程与游玩   虚线：返程／可选支线   圆环：原地休整',32,793,14,MUTED);
   days.forEach((day,index)=>{
-    const x=32+(index%4)*291,y=785+Math.floor(index/4)*25;
+    const x=32+(index%4)*291,y=829+Math.floor(index/4)*25;
     ctx.globalAlpha=selected==='all'||selected===day.id?1:.4;
     ctx.beginPath();ctx.moveTo(x,y-5);ctx.lineTo(x+21,y-5);ctx.lineWidth=3;ctx.strokeStyle=day.color;ctx.setLineDash(day.phase==='返程'?[5,3]:[]);ctx.stroke();ctx.setLineDash([]);
     const short=day.id==='north'?'婺源北线（二选一）':day.id==='yangchan'?'阳产游览 · 下山过夜':day.id==='chaji-transfer'?'深渡片区 → 查济':day.route.replace(/片区/g,'').replace(/（.*?）/g,'');
     text(ctx,`D${day.number} ${short}`,x+30,y,12,day.color);ctx.globalAlpha=1;
   });
-  text(ctx,'© OpenStreetMap contributors / ODbL · OSRM道路参考规划 · WGS84 · 2026-10-11',32,914,12,MUTED);
-  text(ctx,'参考路线，非实时导航',1168,914,12,MUTED,'right');
+  text(ctx,'© OpenStreetMap contributors / ODbL · OSRM道路参考规划 · WGS84 · 2026-10-11',32,958,12,MUTED);
+  text(ctx,'参考路线，非实时导航',1168,958,12,MUTED,'right');
   canvas.setAttribute('aria-label',`${plan.length}天赣皖公路路线图。${shown.map(day=>`Day${day.number}：${day.route}`).join('；')}。左侧全程，右侧游玩区域；地点为区域参考点。`);
 }
 
@@ -122,7 +125,7 @@ export function mountRouteMap(){
     const shown=selectedMapDays(plan,selected);
     status.textContent=selected==='all'?`${plan.length}天方案 · 全部行程`:`Day ${shown[0].number} · ${shown[0].route}`;
     document.getElementById('map-day-summary').textContent=selected==='all'?'选择Day查看当天路线；去程、游玩和返程按天分色。':
-      `${shown[0].focus}。${shown[0].id==='north'?'虹关与漳村为二选一，图中分别标出支线。':shown[0].id==='yangchan'?'阳产标记为村落位置，上山需另行确认山下停车与接驳。':shown[0].id==='chaji-transfer'?'按前晚下山过夜，从深渡片区出发；实际起点以住宿位置为准。':shown[0].paths[0].length===1?'当天原地停留，不绘制新增驾驶路线。':''}`;
+      `${shown[0].geography}。${shown[0].focus}。${shown[0].id==='north'?'虹关与漳村为二选一，图中分别标出支线。':shown[0].id==='yangchan'?'阳产标记为村落位置，上山需另行确认山下停车与接驳。':shown[0].id==='chaji-transfer'?'按前晚下山过夜，从深渡片区出发；实际起点以住宿位置为准。':shown[0].paths[0].length===1?'当天原地停留，不绘制新增驾驶路线。':''}`;
     filters.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mapDay===selected)));
   }
   async function load(){
@@ -141,6 +144,11 @@ export function mountRouteMap(){
     },'image/png');
   });
   document.getElementById('map-retry').addEventListener('click',load);
+  const directory=document.getElementById('place-directory');
+  for(const place of Object.values(places)){
+    const item=document.createElement('div'),name=document.createElement('dt'),region=document.createElement('dd');
+    name.textContent=place.name;region.textContent=place.region;item.append(name,region);directory.append(item);
+  }
   load();
   return {update(next){
     plan=next;if(selected!=='all'&&!plan.some(day=>day.id===selected))selected='all';
