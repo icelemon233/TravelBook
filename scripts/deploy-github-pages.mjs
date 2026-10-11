@@ -17,7 +17,7 @@ try{
   git(['clone','--single-branch','--branch',branch,remote,temp]);
   git(['rm','-r','--ignore-unmatch','.'],temp);
   for(const file of ['index.html','.nojekyll','autumn','assets','tibet','tibet-source.html'])fs.cpSync(path.join(root,file),path.join(temp,file),{recursive:true});
-  fs.writeFileSync(path.join(temp,'404.html'),'<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>页面未找到 · Cinna Travel</title><body style="font:16px/2 system-ui;padding:10vw;background:#f4f0e7;color:#2d493d"><h1>这条小路还没开通。</h1><p><a href="https://icelemon233.github.io/cinna-travel/">返回赣皖秋日路书</a> · <a href="https://icelemon233.github.io/cinna-travel/tibet/">查看西藏旧路书</a></p></body></html>');
+  fs.writeFileSync(path.join(temp,'404.html'),'<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>页面未找到 · Cinna Travel</title><body style="font:16px/2 system-ui;padding:10vw;background:#f4f0e7;color:#2d493d"><h1>页面未找到</h1><p><a href="https://icelemon233.github.io/cinna-travel/">返回赣皖旅游攻略</a> · <a href="https://icelemon233.github.io/cinna-travel/tibet/">查看西藏旅游攻略</a></p></body></html>');
   const hashes={};
   for(const file of ['index.html','autumn/app.js','autumn/style.css','autumn/trip-data.js','autumn/energy.js'])hashes[file]=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
   fs.writeFileSync(path.join(temp,'deployment.json'),JSON.stringify({source_commit:source,hashes},null,2)+'\n');

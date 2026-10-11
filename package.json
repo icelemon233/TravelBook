@@ -3,7 +3,7 @@
   "private": true,
   "version": "3.0.0",
   "type": "module",
-  "description": "江门出发的赣皖秋日电车床车慢游路书，保留西藏旧路书",
+  "description": "江门出发的赣皖自驾旅游攻略，包含每日行程、充电与住宿安排",
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "check": "node --check autumn/app.js && node --test scripts/plan.test.mjs",

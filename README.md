@@ -1,8 +1,8 @@
-# Cinna Travel · 赣皖秋日路书
+# Cinna Travel · 赣皖自驾旅游攻略
 
-江门出发的电车床车慢游。默认16天，可调15/17天；日期未定，用Day1开始的相对日程。
+江门出发的电车自驾旅游攻略，采用床车与酒店住宿。默认16天，可调15/17天；日期未定，用Day1开始的相对日程。
 
-线上：<https://icelemon233.github.io/cinna-travel/>；原西藏路书保留在 <https://icelemon233.github.io/cinna-travel/tibet/>。
+线上：<https://icelemon233.github.io/cinna-travel/>；原西藏攻略保留在 <https://icelemon233.github.io/cinna-travel/tibet/>。
 
 ## 已确定的约束
 
