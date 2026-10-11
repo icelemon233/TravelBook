@@ -1,10 +1,15 @@
 {
-  "source_commit": "9b68c1cb82d3d41a6a1027eb9799ed8c08b54002",
+  "source_commit": "e865241babcda7b60ad131054aaded1ae738816f",
   "hashes": {
-    "index.html": "1223d4c21e5dbb05fbb1288596e642b1c39a9daf662bbb1ebc81417306854835",
-    "autumn/app.js": "89811aec62a91844bddcb2880e5fa8f01b3042d07a4097624ccf797dd27ed363",
+    "index.html": "c7de11c49518f2d533e3a0e7bba514c988c9612c11340f264e0dbecd5f1a89ad",
+    "autumn/app.js": "72240aba6551e5e2b34d8c6d668bac350f80c4d2261d9fd7bb73ea5d28181afc",
     "autumn/style.css": "069cb12995f3efe61dc05f3b7907fac563cc776f240a1dd2d32ac41b0f0fbc44",
     "autumn/trip-data.js": "55966e5b62c49cf7583b8b2b9e483821f052113851788353d65381297a6a5b7b",
-    "autumn/energy.js": "cda7e7c3fe390cf3e34a42bad5ebe1996d07f185791221a683d427fc336c0354"
+    "autumn/energy.js": "cda7e7c3fe390cf3e34a42bad5ebe1996d07f185791221a683d427fc336c0354",
+    "autumn/route-map.js": "e3de127ed12704fcf604c231b6fc584bbdcc6763e0aee43ebe75c49ad4768279",
+    "autumn/route-map.css": "ddba91921076eced69f2c4a39de012be7ffa56cb44bce6b8c0055023ad84b5b6",
+    "autumn/map-model.js": "0bdb31db1309db1126d0199a215804142695b02dd116c1fe763c686bb4bf80b9",
+    "autumn/map-data.json": "eb622cf85e695f4c23fc3f175f5eae46b8224f2b58557f93696ad46ace092fff",
+    "autumn/map-sources.json": "92233192503450591310d720fb550fa7fa75177951263da837a82456b59fb3c2"
   }
 }
