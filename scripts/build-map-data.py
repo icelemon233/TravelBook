@@ -107,5 +107,5 @@ data = {'fetched':'2026-10-11','coordinateSystem':'WGS84',
         'osmTimestamp':osm.get('osm3s',{}).get('timestamp_osm_base'),
         'points':{k:{'name':v[0],'coordinates':v[1:3],'osm':v[3]} for k,v in points.items()},
         'roads':roads,'routes':routes}
-(ROOT/'autumn/map-data.json').write_text(json.dumps(data,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf8')
+(ROOT/'autumn/map-data.json').write_text(json.dumps(data,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf8',newline='\n')
 print('Saved map-data.json:',len(roads),'base roads',flush=True)
