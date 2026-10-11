@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {makePlan} from '../autumn/trip-data.js';
 import {estimateRange,estimateMorning} from '../autumn/energy.js';
+import {mapDays,roadLeg,selectedMapDays} from '../autumn/map-model.js';
 
 test('15/16/17天保持六站顺序、三天去程和四天返程',()=>{
   for(const length of [15,16,17]){
@@ -35,4 +36,36 @@ test('夜耗计算保留负值以提示电量不足，不掩盖问题',()=>{
 });
 test('首页资源和原线上西藏页面均保留',()=>{
   for(const file of ['index.html','autumn/style.css','autumn/app.js','autumn/trip-data.js','autumn/energy.js','tibet/index.html','tibet/app.js','tibet/app.css','tibet/assets/generated/plateau.webp','tibet-source.html'])assert.ok(fs.existsSync(file),file);
+});
+
+test('地图覆盖全部行程版本，Day编号与稳定ID一致',()=>{
+  for(const length of [15,16,17]){
+    const plan=makePlan(length),days=mapDays(plan);
+    assert.equal(days.length,length);
+    assert.ok(days.every((day,i)=>day.number===i+1&&/^#[0-9a-f]{6}$/i.test(day.color)&&day.paths.length));
+    assert.equal(selectedMapDays(plan,'return-1')[0].number,length-3);
+    assert.equal(selectedMapDays(plan,'all').length,length);
+    assert.equal(selectedMapDays(plan,'missing').length,0);
+  }
+  assert.deepEqual(mapDays(makePlan(16)).find(day=>day.id==='chaji-transfer').paths,[['shendu','chaji']]);
+});
+
+test('路线采用缓存公路几何，反向返程不改写原坐标',()=>{
+  const data=JSON.parse(fs.readFileSync('autumn/map-data.json','utf8'));
+  assert.equal(data.coordinateSystem,'WGS84');
+  for(const length of [15,16,17])for(const day of mapDays(makePlan(length)))for(const path of day.paths){
+    for(const id of path)assert.ok(data.points[id],id);
+    for(let i=1;i<path.length;i++){
+      const line=roadLeg(data,path[i-1],path[i]);
+      assert.ok(line&&line.length>2,`${day.id}: ${path[i-1]}→${path[i]}`);
+      assert.ok(line.every(p=>p.length===2&&p.every(Number.isFinite)&&p[0]>112&&p[0]<120&&p[1]>22&&p[1]<32));
+    }
+  }
+  const original=structuredClone(data.routes['jiangmen|shaoguan'].coordinates);
+  const reversed=roadLeg(data,'shaoguan','jiangmen');
+  assert.deepEqual(reversed,[...original].reverse());
+  reversed.push([0,0]);
+  assert.deepEqual(data.routes['jiangmen|shaoguan'].coordinates,original);
+  assert.equal(roadLeg(data,'jiangmen','chaji'),null);
+  assert.ok(data.roads.some(road=>road.kind==='river'));
 });

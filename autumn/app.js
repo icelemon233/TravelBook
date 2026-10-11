@@ -1,5 +1,6 @@
 import {makePlan,sources} from './trip-data.js';
 import {estimateRange,estimateMorning} from './energy.js';
+import {mountRouteMap} from './route-map.js';
 
 const $ = id => document.getElementById(id);
 const key = 'cinna-ganwan-v1';
@@ -13,11 +14,13 @@ let length = [15,16,17].includes(Number(saved.length)) ? Number(saved.length) : 
 let phase = '全部';
 let expanded = false;
 const openDays = new Set(['out-1']);
+const routeMap = mountRouteMap();
 function storageError(){ $('storage-status').textContent='浏览器未能读取或保存本地数据，当前仍可使用页面；请另行记录备注。'; }
 function save(){ try { localStorage.setItem(key,JSON.stringify(saved)); } catch { storageError(); } }
 function mapLink(place){ return `https://uri.amap.com/search?keyword=${encodeURIComponent(place)}&view=map`; }
 function render(){
   const plan=makePlan(length);
+  routeMap.update(plan);
   $('length').value=String(length);
   $('stat-days').innerHTML=`${length}<span>天</span>`;
   $('plan-counts').textContent=['去程','游玩','机动','返程'].map(p=>`${p}${plan.filter(day=>day.phase===p).length}天`).join(' / ');

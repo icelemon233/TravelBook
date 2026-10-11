@@ -56,10 +56,15 @@
 - `autumn/trip-data.js`：逐日路线、补能、过夜条件、来源与变体。
 - `autumn/app.js`：阶段筛选、备注、核对清单、本地保存与打印。
 - `autumn/energy.js`：行驶窗口和夜耗粗算。容量/夜耗未知时不生成夜间SOC结论。
+- `autumn/route-map.js` / `route-map.css`：与西藏路书相同形式的公路地图，按Day分色、日期筛选、放大滚动和高清PNG导出。左侧江门往返，右侧赣皖游玩区域。
+- `autumn/map-model.js`：按稳定行程ID映射路线，随15/16/17天版本调整Day编号。
+- `autumn/map-data.json` / `map-sources.json`：缓存的OSM公路、河段、地名节点与OSRM参考路线及来源记录。WGS84，非实时导航；节点不是已经核验的停车场。
 - `tibet/`：原gh-pages线上西藏页面完整快照，源提交 `f415d3d4a474b9680cbb9e0ced9d02985f2ce75b`，包含样式、脚本、图片。
 - `tibet-source.html`：原main的西藏页面源码快照，与原线上版本不同。
 
 备注、酒店预算与核对进度仅保存在当前浏览器localStorage，不上传、不跨设备同步。变体按稳定ID保存备注，不随Day序号改变而错位。
+
+地图数据2026-10-11获取，随网站静态部署；查看地图和导出不需要外部地图服务。彩线使用OSRM快速参考路线，游玩段选择国省道时以当天导航重算。阳产标注为村落参考点，上山停车与接驳另行确认；桃花潭为镇级参考点。公路数据署名© OpenStreetMap contributors，ODbL。数据重建使用Python标准库：按`map-sources.json`的Overpass查询保存原始JSON，再运行`python scripts/build-map-data.py --osm <原始文件路径>`，必要时加`--proxy`。
 
 ## 本地预览与验证
 
