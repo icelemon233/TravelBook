@@ -1,10 +1,10 @@
 {
-  "source_commit": "2d706319e0ef3313b5e82c8d11f402017e4361ad",
+  "source_commit": "9b68c1cb82d3d41a6a1027eb9799ed8c08b54002",
   "hashes": {
-    "index.html": "f2c27c51cc6d1d905be3c07a57ae8cb9349ba4968783786f605bfced73266a68",
+    "index.html": "1223d4c21e5dbb05fbb1288596e642b1c39a9daf662bbb1ebc81417306854835",
     "autumn/app.js": "89811aec62a91844bddcb2880e5fa8f01b3042d07a4097624ccf797dd27ed363",
-    "autumn/style.css": "3e27bf4908c921d4bcc438b2c7d6a4fd8a4c9a9db481a526b47a4da1420e0081",
-    "autumn/trip-data.js": "7877b5b1cd4a6fbc9d9a925b5b553637aca6d778e707b74fdde9a80242a81ee8",
+    "autumn/style.css": "069cb12995f3efe61dc05f3b7907fac563cc776f240a1dd2d32ac41b0f0fbc44",
+    "autumn/trip-data.js": "55966e5b62c49cf7583b8b2b9e483821f052113851788353d65381297a6a5b7b",
     "autumn/energy.js": "cda7e7c3fe390cf3e34a42bad5ebe1996d07f185791221a683d427fc336c0354"
   }
 }
