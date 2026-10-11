@@ -1,14 +1,16 @@
 {
-  "source_commit": "47f0f49a975351c2b7e00bd9a5d720c89213fde4",
+  "source_commit": "a8ef0e8ac9bd0b3fde19c965082928a84ac5f24f",
   "hashes": {
-    "index.html": "c7de11c49518f2d533e3a0e7bba514c988c9612c11340f264e0dbecd5f1a89ad",
-    "autumn/app.js": "72240aba6551e5e2b34d8c6d668bac350f80c4d2261d9fd7bb73ea5d28181afc",
+    "index.html": "9e319605ce45672a26d2dd54f6bdf2691dd7ecfdfb96c00aa8c9294f483eabc3",
+    "autumn/app.js": "4b3552c1f6c98c8604a518dcae2779117d6b0de96dfea17e2572930564f9e177",
     "autumn/style.css": "069cb12995f3efe61dc05f3b7907fac563cc776f240a1dd2d32ac41b0f0fbc44",
-    "autumn/trip-data.js": "55966e5b62c49cf7583b8b2b9e483821f052113851788353d65381297a6a5b7b",
+    "autumn/trip-data.js": "d7f5137624bde8afff08086506edadfbcd788549fcb8dc8c0a9d5d9b96d8aefa",
     "autumn/energy.js": "cda7e7c3fe390cf3e34a42bad5ebe1996d07f185791221a683d427fc336c0354",
-    "autumn/route-map.js": "e3de127ed12704fcf604c231b6fc584bbdcc6763e0aee43ebe75c49ad4768279",
+    "autumn/route-map.js": "6da05668c44e622d0de0c8412f50ecf212675eace45280ef9f0332670dcf86c8",
     "autumn/route-map.css": "ddba91921076eced69f2c4a39de012be7ffa56cb44bce6b8c0055023ad84b5b6",
+    "autumn/itinerary.css": "e154d99c2e52f718839be96306aa454fa6dd9ab53601e42758586880ea1cd136",
     "autumn/map-model.js": "0bdb31db1309db1126d0199a215804142695b02dd116c1fe763c686bb4bf80b9",
+    "autumn/places.js": "9dd4d967e580a6a97902b59d6a04c10cc84787c360da290d40cc18775aebf551",
     "autumn/map-data.json": "5ad64b27d34eb1f3818cf371c66011f9845ca2812dac6c7ebb75606bd40f0d5b",
     "autumn/map-sources.json": "92233192503450591310d720fb550fa7fa75177951263da837a82456b59fb3c2"
   }

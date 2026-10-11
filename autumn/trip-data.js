@@ -1,3 +1,4 @@
+import {dayRegions,qualifyPlace} from './places.js';
 export const days = [
   {id:'out-1',phase:'去程',route:'江门 → 韶关片区',stay:'获准过夜的停车场；疲劳就住酒店',road:'高速优先',drive:'以4–5小时为上限',focus:'只赶路，不安排景点',detail:'韶关是候选落脚区，不是必须抵达的终点。出发前核对具体酒店或停车场；导航超过5小时就提前落脚，不往山区赶。',charge:'出发前补电；途中按150–180km规划补能窗口，每次选主站与备用站。',sleep:'首晚先验证车内睡眠质量和整夜空调耗电。睡不好，第二晚直接住酒店。',from:'江门市',to:'韶关市'},
   {id:'out-2',phase:'去程',route:'韶关片区 → 吉安／泰和片区',stay:'县城酒店优先，洗澡补觉',road:'高速优先',drive:'以4–5小时为上限',focus:'继续北上，午间充分休息',detail:'吉安和泰和为同一条北上走廊上的候选区间，选择满足驾驶上限的一处。酒店停车条件与是否能充电分别确认，不以“有停车场”推断有充电桩。',charge:'高速服务区可补能；下高速后的县城站作兜底。抵达时要留出寻找备用站的电量。',sleep:'安排一次酒店恢复，避免连续几晚床车影响驾驶。',from:'韶关市',to:'泰和县'},
@@ -18,6 +19,10 @@ export const days = [
 ];
 
 export const sources = [
+  ['瑶里所属地区','浮梁县政府；江西省景德镇市浮梁县瑶里镇','https://fuliang.gov.cn/zjfl/flly/jqls/t1092389.shtml'],
+  ['婺源所属地区','中央纪委网站；江西省上饶市婺源县','https://m.ccdi.gov.cn/content/b1/a0/4956.html'],
+  ['阳产所属地区','黄山市政府；安徽省黄山市歙县深渡镇','https://www.huangshan.gov.cn/zxzx/qxdt/8418306.html'],
+  ['查济所属地区','宣城市政府；安徽省宣城市泾县桃花潭镇','https://www.xuancheng.gov.cn/News/show/625442.html'],
   ['深渡新增20余台新能源充电桩','黄山市政府；未标明AC/DC，不代表实时可用','https://www.huangshan.gov.cn/zxzx/qxdt/8412572.html'],
   ['阳产换乘及旅游服务规范工作','安徽经济网，2026-04-10；换乘价格与时段另核实','https://www.ahjjw.com.cn/html/lvyou/2026/0410/529898.html'],
   ['查济充电桩建设进度','泾县政府2026年4月文件；施工信息不等于运营状态','https://www.ahjx.gov.cn/file_xc/6/202604/2026040951deb60bba9c46ccbf419800b50021fa.pdf'],
@@ -28,7 +33,7 @@ export const sources = [
 
 export function makePlan(length=16) {
   const plan = days.map(day => ({...day}));
-  if (Number(length) === 15) return plan.filter(day => day.id !== 'taohuatan');
+  if (Number(length) === 15) plan.splice(plan.findIndex(day => day.id === 'taohuatan'),1);
   if (Number(length) === 17) plan.splice(12,0,{id:'extra',phase:'机动',route:'额外天气／转场缓冲',stay:'按前后日所在片区选酒店或停车点',road:'按状态决定',drive:'优先休息',focus:'用于天气、休息或分段行驶',detail:'这是可挪动的第17天额度：默认显示在返程前，也可用于去程或返程多拆一段。顺利时无需用满，不添加新目的地。',charge:'根据实际位置核实场站，不假定与前一天相同。',sleep:'保留恢复时间，不用额外一天塞景点。',from:'查济古村',to:'查济古村'});
-  return plan;
+  return plan.map(day=>({...day,geography:dayRegions(day.id),from:qualifyPlace(day.from),to:qualifyPlace(day.to),...(day.via?{via:qualifyPlace(day.via)}:{})}));
 }
