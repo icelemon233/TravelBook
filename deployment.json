@@ -1,5 +1,5 @@
 {
-  "source_commit": "e865241babcda7b60ad131054aaded1ae738816f",
+  "source_commit": "47f0f49a975351c2b7e00bd9a5d720c89213fde4",
   "hashes": {
     "index.html": "c7de11c49518f2d533e3a0e7bba514c988c9612c11340f264e0dbecd5f1a89ad",
     "autumn/app.js": "72240aba6551e5e2b34d8c6d668bac350f80c4d2261d9fd7bb73ea5d28181afc",
@@ -9,7 +9,7 @@
     "autumn/route-map.js": "e3de127ed12704fcf604c231b6fc584bbdcc6763e0aee43ebe75c49ad4768279",
     "autumn/route-map.css": "ddba91921076eced69f2c4a39de012be7ffa56cb44bce6b8c0055023ad84b5b6",
     "autumn/map-model.js": "0bdb31db1309db1126d0199a215804142695b02dd116c1fe763c686bb4bf80b9",
-    "autumn/map-data.json": "eb622cf85e695f4c23fc3f175f5eae46b8224f2b58557f93696ad46ace092fff",
+    "autumn/map-data.json": "5ad64b27d34eb1f3818cf371c66011f9845ca2812dac6c7ebb75606bd40f0d5b",
     "autumn/map-sources.json": "92233192503450591310d720fb550fa7fa75177951263da837a82456b59fb3c2"
   }
 }
