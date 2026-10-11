@@ -2,6 +2,9 @@ import {makePlan,sources} from './trip-data.js';
 import {estimateRange,estimateMorning} from './energy.js';
 import {mountRouteMap} from './route-map.js';
 import {mountAttractions} from './attractions.js';
+import {renderNights} from './nights.js';
+import {drivingFor,drivingLinks,renderDriving} from './driving.js';
+let drivingAudit=null;
 
 const $ = id => document.getElementById(id);
 const key = 'cinna-ganwan-v1';
@@ -34,9 +37,9 @@ function render(){
   $('stat-days').innerHTML=`${length}<span>天</span>`;
   $('plan-counts').textContent=['去程','游玩','机动','返程'].map(p=>`${p}${plan.filter(day=>day.phase===p).length}天`).join(' / ');
   $('variant-note').textContent=length===15?'删去查济周边一天，保留六站、驾驶上限与机动日。':length===17?'增加一天可挪动缓冲；去程或返程超时就用它拆段，不添加景点。':'机动日可以移到任何需要它的位置；一切顺利可提前返程。';
-  const hotelIds=['out-2','north','chaji','buffer','return-3'];
-  $('hotel-nights').textContent=`参考恢复晚：${plan.map((day,index)=>hotelIds.includes(day.id)?`D${index+1}`:null).filter(Boolean).join('、')}；可随睡眠状态提前，非已预订。`;
-  $('days').innerHTML=plan.map((day,index)=>`<details class="day" id="day-${day.id}" data-id="${day.id}" ${phase!=='全部'&&day.phase!==phase?'hidden':''} ${(expanded||openDays.has(day.id))?'open':''}><summary><span class="day-num">DAY ${String(index+1).padStart(2,'0')}</span><span class="day-heading"><strong>${escape(day.route)}</strong><span class="day-location">${escape(day.geography)}</span><small>${escape(day.focus)}</small></span><span class="phase phase-${day.phase}">${day.phase}</span></summary><div class="day-body"><p class="day-intro">${escape(day.detail)}</p><dl class="day-facts"><div><dt>道路与驾驶预算</dt><dd>${escape(day.road)} · ${escape(day.drive)}</dd></div><div><dt>落脚候选</dt><dd>${escape(day.stay)}</dd></div><div><dt>补能安排</dt><dd>${escape(day.charge)}</dd></div><div><dt>过夜与恢复</dt><dd>${escape(day.sleep)}</dd></div></dl><div class="map-links"><a href="${mapLink(day.from)}" target="_blank" rel="noopener noreferrer">查起点 ↗</a>${day.via?`<a href="${mapLink(day.via)}" target="_blank" rel="noopener noreferrer">查途经点 ↗</a>`:''}<a href="${mapLink(day.to)}" target="_blank" rel="noopener noreferrer">查终点 ↗</a><span class="fine">地点搜索，不代表路线或停车许可已核验</span></div><label class="day-note ${saved.notes[day.id]?'':'empty'}">自己的落脚点／主备充电站／确认结果<textarea data-note="${day.id}" maxlength="4000" placeholder="例如：酒店名称、停车许可、主充电站与备用站……">${escape(saved.notes[day.id]||'')}</textarea></label></div></details>`).join('');
+  renderNights(plan);
+  renderDriving(plan,drivingAudit);
+  $('days').innerHTML=plan.map((day,index)=>{const driving=drivingFor(day,drivingAudit);return `<details class="day" id="day-${day.id}" data-id="${day.id}" ${phase!=='全部'&&day.phase!==phase?'hidden':''} ${(expanded||openDays.has(day.id))?'open':''}><summary><span class="day-num">DAY ${String(index+1).padStart(2,'0')}</span><span class="day-heading"><strong>${escape(day.route)}</strong><span class="day-location">${escape(day.geography)}</span><small>${escape(day.focus)}</small></span><span class="phase phase-${day.phase}">${day.phase}</span></summary><div class="day-body"><p class="day-intro">${escape(day.detail)}</p><dl class="day-facts"><div><dt>道路与驾驶预算</dt><dd>${escape(day.road)}<br>${escape(driving.label)}${driving.legs.length?`<div class="night-links">${drivingLinks(driving)}</div>`:''}</dd></div><div><dt>今晚住宿</dt><dd>${escape(day.stay)}</dd></div><div><dt>补能安排</dt><dd>${escape(day.charge)}</dd></div><div><dt>过夜与恢复</dt><dd>${escape(day.sleep)}</dd></div></dl><div class="map-links"><a href="${mapLink(day.from)}" target="_blank" rel="noopener noreferrer">查起点 ↗</a>${day.via?`<a href="${mapLink(day.via)}" target="_blank" rel="noopener noreferrer">查途经点 ↗</a>`:''}<a href="${mapLink(day.to)}" target="_blank" rel="noopener noreferrer">查终点 ↗</a><a href="${mapLink(day.overnight.place.region.replaceAll(' · ','')+day.overnight.place.name)}" target="_blank" rel="noopener noreferrer">查今晚住宿 ↗</a><a href="#nights">逐晚住宿清单</a><span class="fine">地点搜索，不代表路线或停车许可已核验</span></div><label class="day-note ${saved.notes[day.id]?'':'empty'}">自己的落脚点／主备充电站／确认结果<textarea data-note="${day.id}" maxlength="4000" placeholder="例如：酒店名称、停车许可、主充电站与备用站……">${escape(saved.notes[day.id]||'')}</textarea></label></div></details>`;}).join('');
   $('days').querySelectorAll('details').forEach(el=>el.addEventListener('toggle',()=>{ if(el.open) openDays.add(el.dataset.id); else openDays.delete(el.dataset.id); }));
   $('expand').textContent=expanded?'收起全部详情':'展开全部详情';
 }
@@ -44,6 +47,12 @@ $('length').addEventListener('change',event=>{ length=Number(event.target.value)
 $('filters').addEventListener('click',event=>{ const button=event.target.closest('[data-phase]'); if(!button) return; phase=button.dataset.phase; $('filters').querySelectorAll('[data-phase]').forEach(el=>el.setAttribute('aria-pressed',String(el===button))); render(); });
 $('expand').addEventListener('click',()=>{ expanded=!expanded; if(!expanded)openDays.clear(); render(); });
 $('days').addEventListener('input',event=>{ const id=event.target.dataset.note; if(!id)return; saved.notes[id]=event.target.value; event.target.closest('.day-note').classList.toggle('empty',!event.target.value); save(); });
+$('night-rows').addEventListener('click',event=>{
+  const link=event.target.closest('[data-night-day]');if(!link)return;
+  phase='全部';
+  $('filters').querySelectorAll('[data-phase]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.phase==='全部')));
+  openDays.add(link.dataset.nightDay);render();
+});
 
 const checks=[
   ['route','每天实际导航不超过5小时','用具体停车场／酒店做起终点，必要时提前落脚或拆段。'],
@@ -79,3 +88,5 @@ $('print').addEventListener('click',()=>window.print());
 const observer=new IntersectionObserver(entries=>{ const current=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top)[0]; if(!current)return; document.querySelectorAll('.rail nav a').forEach(a=>{const active=a.hash===`#${current.target.id}`;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}); },{rootMargin:'-15% 0px -65% 0px'});
 document.querySelectorAll('.section').forEach(section=>observer.observe(section));
 render(); progress(); calculate();
+
+fetch(new URL('./amap-times.json',import.meta.url)).then(response=>{if(!response.ok)throw new Error('Driving data unavailable');return response.json();}).then(audit=>{drivingAudit=audit;render();}).catch(()=>{document.getElementById('driving-rows').innerHTML='<tr><td colspan="2">驾驶核查数据暂未加载，请刷新重试。</td></tr>';});
