@@ -5,6 +5,67 @@ import {makePlan} from '../autumn/trip-data.js';
 import {estimateRange,estimateMorning} from '../autumn/energy.js';
 import {mapDays,roadLeg,selectedMapDays} from '../autumn/map-model.js';
 import {attractionGroups,attractionDays} from '../autumn/attractions-data.js';
+import {drivingFor} from '../autumn/driving.js';
+
+test('18条高德查询覆盖所有驾驶日，合计正确且链接对应具体起终点',()=>{
+  const audit=JSON.parse(fs.readFileSync('autumn/amap-times.json','utf8'));
+  assert.equal(audit.legs.length,18);
+  assert.equal(new Set(audit.legs.map(leg=>leg.id)).size,18);
+  for(const leg of audit.legs){
+    assert.ok(leg.minutes>0&&leg.km>0&&leg.roads);
+    const url=new URL(leg.url);assert.equal(url.hostname,'www.amap.com');
+    assert.ok(leg.from.endsWith(url.searchParams.get('fname')),leg.id);
+    assert.ok(leg.to.endsWith(url.searchParams.get('dname')),leg.id);
+    assert.ok(url.searchParams.get('fid')&&url.searchParams.get('did'));
+  }
+  for(const length of [15,16,17])for(const day of makePlan(length)){
+    const drive=drivingFor(day,audit);assert.ok(drive.complete,day.id);
+    assert.ok(drive.minutes<=300,day.id);
+    if(drive.legs.length){
+      assert.equal(drive.minutes,drive.legs.reduce((sum,leg)=>sum+leg.minutes,0));
+      for(let i=1;i<drive.legs.length;i++)assert.equal(drive.legs[i-1].to,drive.legs[i].from);
+      if(day.overnight.mode!=='home'){
+        const normalize=text=>text.replaceAll('（','(').replaceAll('）',')');
+        assert.ok(normalize(drive.legs.at(-1).to).endsWith(normalize(day.overnight.place.name)),day.id);
+      }
+    }
+  }
+  const plan=makePlan(16);
+  assert.equal(drivingFor(plan.find(d=>d.id==='qinghua'),audit).minutes,70);
+  assert.equal(drivingFor(plan.find(d=>d.id==='return-2'),audit).minutes,290);
+  const highway=audit.legs.find(l=>l.id==='return-1');
+  assert.equal(highway.routeChoice,3);assert.match(highway.roads,/G50沪渝高速/);
+  assert.match(highway.from,/查济/);assert.match(highway.to,/浮梁/);
+  assert.equal(drivingFor(plan[0],{legs:[]}).complete,false);
+});
+
+test('每晚住宿覆盖全部版本、同步日程且连续车宿不超过三晚',()=>{
+  for(const length of [15,16,17]){
+    const plan=makePlan(length);let consecutive=0;
+    for(const day of plan){
+      const night=day.overnight;
+      assert.ok(['car','hotel','home'].includes(night.mode));
+      assert.ok(night.place.name&&night.place.address&&night.place.region);
+      assert.match(night.place.region,/省 · .*市/);
+      assert.ok(day.stay.includes(night.place.name));
+      assert.ok(day.sleep.includes(night.reason));
+      if(night.mode!=='home')assert.ok(new URL(night.place.source).protocol==='https:');
+      if(night.mode==='car'){
+        assert.ok(night.fallback?.name&&night.fallback?.source);
+        assert.match(night.status,/待确认/);consecutive++;
+      }else consecutive=0;
+      assert.ok(consecutive<=3,day.id);
+      if(night.mode==='hotel')assert.ok(!/民宿|客栈|农家乐/.test(night.place.name));
+    }
+    assert.equal(plan.filter(d=>d.overnight.mode==='hotel').length,5);
+    assert.equal(plan.filter(d=>d.overnight.mode==='car').length,length-6);
+    assert.equal(plan.at(-1).overnight.mode,'home');
+    assert.equal(plan.find(d=>d.id==='yangchan').overnight.placeId,'shenduPark');
+    assert.equal(plan.find(d=>d.id==='chaji-transfer').from,'安徽省黄山市歙县深渡镇');
+  }
+  const changed=makePlan(16);changed[0].overnight.place.name='changed';
+  assert.notEqual(makePlan(16)[0].overnight.place.name,'changed');
+});
 
 test('景点目录覆盖12处且各版本Day映射和图片授权有效',()=>{
   const spots=attractionGroups.flatMap(group=>group.spots);
