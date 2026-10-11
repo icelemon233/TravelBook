@@ -4,6 +4,26 @@ import fs from 'node:fs';
 import {makePlan} from '../autumn/trip-data.js';
 import {estimateRange,estimateMorning} from '../autumn/energy.js';
 import {mapDays,roadLeg,selectedMapDays} from '../autumn/map-model.js';
+import {attractionGroups,attractionDays} from '../autumn/attractions-data.js';
+
+test('景点目录覆盖12处且各版本Day映射和图片授权有效',()=>{
+  const spots=attractionGroups.flatMap(group=>group.spots);
+  assert.equal(spots.length,12);
+  assert.equal(new Set(spots.map(spot=>spot.id)).size,12);
+  const photos=JSON.parse(fs.readFileSync('autumn/photo-sources.json','utf8'));
+  for(const group of attractionGroups){
+    assert.match(group.region,/省 · .*市 · .*县/);
+    if(group.photo){const photo=photos[group.photo];assert.ok(photo.author&&photo.license&&photo.licenseUrl&&photo.source);assert.ok(fs.existsSync(photo.local));}
+    for(const spot of group.spots)for(const length of [15,16,17]){
+      const plan=makePlan(length),mapped=attractionDays(spot,plan);
+      assert.ok(mapped.every(day=>plan[day.number-1].id===day.id));
+      assert.equal(mapped.length,spot.dayIds.filter(id=>plan.some(day=>day.id===id)).length);
+    }
+  }
+  const optional=spots.find(spot=>spot.id==='taohuatan-scenic');
+  assert.equal(attractionDays(optional,makePlan(15)).length,0);
+  assert.equal(attractionDays(optional,makePlan(16))[0].number,11);
+});
 
 test('15/16/17天保持六站顺序、三天去程和四天返程',()=>{
   for(const length of [15,16,17]){

@@ -21,7 +21,7 @@ try{
   const hashes={};
   git(['add','-A'],temp);
   // Hash the staged bytes that Pages will serve, after Git's Windows newline normalization.
-  for(const file of ['index.html','autumn/app.js','autumn/style.css','autumn/trip-data.js','autumn/energy.js','autumn/route-map.js','autumn/route-map.css','autumn/itinerary.css','autumn/map-model.js','autumn/places.js','autumn/map-data.json','autumn/map-sources.json']){
+  for(const file of ['index.html','autumn/app.js','autumn/style.css','autumn/trip-data.js','autumn/energy.js','autumn/route-map.js','autumn/route-map.css','autumn/itinerary.css','autumn/attractions.js','autumn/attractions-data.js','autumn/attractions.css','autumn/photo-sources.json','autumn/map-model.js','autumn/places.js','autumn/map-data.json','autumn/map-sources.json']){
     const bytes=execFileSync('git',['show',`:${file}`],{cwd:temp,maxBuffer:32*1024*1024,stdio:['ignore','pipe','inherit']});
     hashes[file]=crypto.createHash('sha256').update(bytes).digest('hex');
   }
