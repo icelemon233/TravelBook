@@ -4,6 +4,7 @@ import {mountRouteMap} from './route-map.js';
 import {mountAttractions} from './attractions.js';
 import {renderNights} from './nights.js';
 import {drivingFor,drivingLinks,renderDriving} from './driving.js';
+import {mountBudget} from './budget.js';
 let drivingAudit=null;
 
 const $ = id => document.getElementById(id);
@@ -18,6 +19,7 @@ let length = [15,16,17].includes(Number(saved.length)) ? Number(saved.length) : 
 let phase = '全部';
 let expanded = false;
 const openDays = new Set(['out-1']);
+const budget=mountBudget(saved.inputs,(id,value)=>{saved.inputs[id]=value;save();});
 const routeMap = mountRouteMap();
 const attractions=mountAttractions(id=>{
   phase='全部';
@@ -39,6 +41,7 @@ function render(){
   $('variant-note').textContent=length===15?'删去查济周边一天，保留六站、驾驶上限与机动日。':length===17?'增加一天可挪动缓冲；去程或返程超时就用它拆段，不添加景点。':'机动日可以移到任何需要它的位置；一切顺利可提前返程。';
   renderNights(plan);
   renderDriving(plan,drivingAudit);
+  budget.update(plan,drivingAudit);
   $('days').innerHTML=plan.map((day,index)=>{const driving=drivingFor(day,drivingAudit);return `<details class="day" id="day-${day.id}" data-id="${day.id}" ${phase!=='全部'&&day.phase!==phase?'hidden':''} ${(expanded||openDays.has(day.id))?'open':''}><summary><span class="day-num">DAY ${String(index+1).padStart(2,'0')}</span><span class="day-heading"><strong>${escape(day.route)}</strong><span class="day-location">${escape(day.geography)}</span><small>${escape(day.focus)}</small></span><span class="phase phase-${day.phase}">${day.phase}</span></summary><div class="day-body"><p class="day-intro">${escape(day.detail)}</p><dl class="day-facts"><div><dt>道路与驾驶预算</dt><dd>${escape(day.road)}<br>${escape(driving.label)}${driving.legs.length?`<div class="night-links">${drivingLinks(driving)}</div>`:''}</dd></div><div><dt>今晚住宿</dt><dd>${escape(day.stay)}</dd></div><div><dt>补能安排</dt><dd>${escape(day.charge)}</dd></div><div><dt>过夜与恢复</dt><dd>${escape(day.sleep)}</dd></div></dl><div class="map-links"><a href="${mapLink(day.from)}" target="_blank" rel="noopener noreferrer">查起点 ↗</a>${day.via?`<a href="${mapLink(day.via)}" target="_blank" rel="noopener noreferrer">查途经点 ↗</a>`:''}<a href="${mapLink(day.to)}" target="_blank" rel="noopener noreferrer">查终点 ↗</a><a href="${mapLink(day.overnight.place.region.replaceAll(' · ','')+day.overnight.place.name)}" target="_blank" rel="noopener noreferrer">查今晚住宿 ↗</a><a href="#nights">逐晚住宿清单</a><span class="fine">地点搜索，不代表路线或停车许可已核验</span></div><label class="day-note ${saved.notes[day.id]?'':'empty'}">自己的落脚点／主备充电站／确认结果<textarea data-note="${day.id}" maxlength="4000" placeholder="例如：酒店名称、停车许可、主充电站与备用站……">${escape(saved.notes[day.id]||'')}</textarea></label></div></details>`;}).join('');
   $('days').querySelectorAll('details').forEach(el=>el.addEventListener('toggle',()=>{ if(el.open) openDays.add(el.dataset.id); else openDays.delete(el.dataset.id); }));
   $('expand').textContent=expanded?'收起全部详情':'展开全部详情';
@@ -69,7 +72,7 @@ function progress(){ $('check-progress').textContent=`${$('checks').querySelecto
 $('checks').addEventListener('change',event=>{ if(!event.target.dataset.check)return; saved.checks[event.target.dataset.check]=event.target.checked; save(); progress(); });
 $('sources').innerHTML=sources.map(([title,description,url])=>`<div class="source"><a href="${url}" target="_blank" rel="noopener noreferrer">${title} ↗</a><p>${description}</p></div>`).join('');
 
-const inputIds=['range','start-soc','reserve-soc','derate','battery','bed-soc','night-use','hotel-budget'];
+const inputIds=['range','start-soc','reserve-soc','derate','battery','bed-soc','night-use'];
 for(const id of inputIds) { if(typeof saved.inputs[id]==='string') $(id).value=saved.inputs[id]; $(id).addEventListener('input',()=>{saved.inputs[id]=$(id).value;save(); calculate();}); }
 function number(id){ const el=$(id); return el.value==='' || !el.validity.valid ? NaN : Number(el.value); }
 function calculate(){

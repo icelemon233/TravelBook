@@ -1,8 +1,8 @@
 {
-  "source_commit": "3d4d739f78113a0a6dcf58481fe45be6f549c7c0",
+  "source_commit": "77e9a22654788f101fbea550f995cd2fc393daff",
   "hashes": {
-    "index.html": "a25b69227eb2d898ade14d80d2352159a9e4cc6aa63274e3e5de22d0d6bf933a",
-    "autumn/app.js": "08ac5c1286f6858616687ebc873e62ac69d6590113b9c5aef210c315f2fef3c1",
+    "index.html": "91bd8646a3b0c4af7a1eaa23dce0ab3b1c4d190ec63ef27aa959faf7c0690889",
+    "autumn/app.js": "77f5278f72cf18f0b509ef3c0ba117eb43d1e391b69956d51d4679acfb45ccf6",
     "autumn/style.css": "dbac2881298a2160e3cc3e1e5a7e558365d600707941c06bf1e32ea5a9fd7564",
     "autumn/trip-data.js": "f62b471fd4114cf62fb50bb7164c5e8b8af3d06e0332b39eeca7a69aad535db6",
     "autumn/energy.js": "cda7e7c3fe390cf3e34a42bad5ebe1996d07f185791221a683d427fc336c0354",
@@ -17,6 +17,9 @@
     "autumn/nights.css": "df9be0bf394dcb73cdc6d8cd86f3c02c91d88cf6291035191d8fc87998404b2e",
     "autumn/driving.js": "080e61ade1f65ecbf1f07cdd93f20ca75920ea484cebe54d0911569ae9af786a",
     "autumn/amap-times.json": "38bcacda9533fd27467b97fbd9ca66e7771be7b7e7ffc9643e7c626ec46a6fce",
+    "autumn/budget-model.js": "6d23eddb2a81b684257d8cd486e82ce386e9700cbe4a24585fa42782b9409007",
+    "autumn/budget.js": "a7ffdd29f06a31f8faa5c0314536a2b81b77df559d05b20eaf5fde91be7d65b4",
+    "autumn/budget.css": "45354d78e07d5fcb62f5c3b149674719b61f8482bbfb818468b91f49664c5062",
     "autumn/photo-sources.json": "22737f5e9ecc196a55b70e49456c6b1b8f5543080d7fd77042949923b6af4b38",
     "autumn/map-model.js": "0bdb31db1309db1126d0199a215804142695b02dd116c1fe763c686bb4bf80b9",
     "autumn/places.js": "9dd4d967e580a6a97902b59d6a04c10cc84787c360da290d40cc18775aebf551",
