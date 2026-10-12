@@ -6,6 +6,39 @@ import {estimateRange,estimateMorning} from '../autumn/energy.js';
 import {mapDays,roadLeg,selectedMapDays} from '../autumn/map-model.js';
 import {attractionGroups,attractionDays} from '../autumn/attractions-data.js';
 import {drivingFor} from '../autumn/driving.js';
+import {estimateBudget,budgetDefaults,budgetFields} from '../autumn/budget-model.js';
+
+test('预算区分按人、按车和按房计费，包含夜耗、损耗与一次机动金',()=>{
+  const plan=[{id:'out-1',overnight:{mode:'car'}},{id:'chaji',overnight:{mode:'hotel'}},{id:'return-4',overnight:{mode:'home'}}];
+  const audit={legs:[{id:'out-1',km:100,minutes:100},{id:'return-4',km:200,minutes:150}]};
+  const inputs={...budgetDefaults,people:2,rooms:1,'hotel-budget':100,food:10,consumption:20,electricity:2,'night-kwh':5,loss:20,detour:0,tolls:50,tickets:20,parking:5,contingency:10};
+  const result=estimateBudget(plan,audit,inputs);
+  assert.equal(result.status,'ready');
+  assert.equal(result.routeKm,300);assert.equal(result.purchasedKwh,81.25);
+  assert.deepEqual(result.items,{hotel:100,food:60,charging:162.5,tolls:50,tickets:40,parking:10,other:0});
+  assert.equal(result.subtotal,422.5);assert.equal(result.reserve,42.25);
+  assert.equal(result.total,464.75);assert.equal(result.perPerson,232.38);
+  const twoRooms=estimateBudget(plan,audit,{...inputs,rooms:2});assert.equal(twoRooms.items.hotel,200);assert.equal(twoRooms.items.tolls,50);
+});
+
+test('预算随15/16/17天联动，无效参数或缺失路线不显示不完整总额',()=>{
+  const audit=JSON.parse(fs.readFileSync('autumn/amap-times.json','utf8'));
+  const variants=[15,16,17].map(length=>estimateBudget(makePlan(length),audit,budgetDefaults));
+  for(const [i,result] of variants.entries()){
+    assert.equal(result.status,'ready');assert.equal(result.days,15+i);
+    assert.equal(result.hotelNights,5);assert.equal(result.carNights,9+i);
+    assert.equal(result.items.hotel,1250);assert.equal(result.items.parking,(14+i)*20);
+  }
+  assert.equal(variants[1].routeKm,3002.4);assert.equal(variants[1].total,6118.91);
+  assert.equal(variants[1].routeKm,variants[2].routeKm);
+  assert.ok(variants[0].routeKm<variants[1].routeKm);
+  assert.ok(variants[0].total<variants[1].total&&variants[1].total<variants[2].total);
+  for(const patch of [{people:0},{people:1.5},{rooms:0},{loss:100},{food:NaN},{tolls:-1},{electricity:Infinity},{other:''}])assert.equal(estimateBudget(makePlan(16),audit,{...budgetDefaults,...patch}).status,'invalid');
+  assert.equal(estimateBudget(makePlan(16),null,budgetDefaults).status,'loading');
+  const zero={...budgetDefaults,...Object.fromEntries(['hotel-budget','food','electricity','tolls','tickets','parking','other'].map(id=>[id,0]))};
+  assert.equal(estimateBudget(makePlan(16),audit,zero).total,0);
+  assert.equal(new Set(budgetFields.map(field=>field.id)).size,budgetFields.length);
+});
 
 test('18条高德查询覆盖所有驾驶日，合计正确且链接对应具体起终点',()=>{
   const audit=JSON.parse(fs.readFileSync('autumn/amap-times.json','utf8'));
