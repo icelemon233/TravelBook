@@ -1,0 +1,112 @@
+{
+  "mapSources": [
+    {
+      "tag": "p",
+      "href": null,
+      "children": [
+        "地点和湖形参考 ",
+        {
+          "tag": "a",
+          "href": "https://www.openstreetmap.org/#map=7/30.30/88.15",
+          "children": [
+            "OpenStreetMap"
+          ]
+        },
+        "，查询日期 2026-09-20，数据 © OpenStreetMap contributors（",
+        {
+          "tag": "a",
+          "href": "https://www.openstreetmap.org/copyright",
+          "children": [
+            "ODbL"
+          ]
+        },
+        "）。道路来自 OpenStreetMap / Overpass，彩色路线来自 ",
+        {
+          "tag": "a",
+          "href": "https://project-osrm.org/",
+          "children": [
+            "OSRM driving 路由"
+          ]
+        },
+        "，已将查询结果保存到本站，无需实时连接地图服务。日喀则至昂仁经谢通门方向约束在 G349 北线。编号沿用道路数据，局部可能仍标旧编号。城市节点为城区参考点，非酒店或办证大厅精确入口。"
+      ]
+    },
+    {
+      "tag": "p",
+      "href": null,
+      "children": [
+        "地理背景参考 ",
+        {
+          "tag": "a",
+          "href": "https://zrzyt.xizang.gov.cn/fw/zyxz/202004/t20200430_139102.html",
+          "children": [
+            "西藏自治区标准地图服务"
+          ]
+        },
+        "及",
+        {
+          "tag": "a",
+          "href": "https://wlt.xizang.gov.cn/xwzx_69/wlyw/wldt/202507/t20250725_491772.html",
+          "children": [
+            "西藏文旅线路资料"
+          ]
+        },
+        "。浅色山纹为 AI 生成装饰，不表示真实地形起伏。羊湖、扎日南木错、当惹雍措、当穹措、达则错和色林措使用邻近可路由道路点，具体游览入口与停车位置仍以实际导航确认。图面只展示本次行程区域，未绘行政边界。"
+      ]
+    },
+    {
+      "tag": "p",
+      "href": null,
+      "children": [
+        "Plan A 的珠峰方向与 G219 边境县未指定具体停靠点，该段保留缺口，不用直线或其他公路冒充原定路线。Plan C 待定时不连出未确定的后续路线。地图不补走 C 失败后已错过的羊湖、卡若拉冰川路段。"
+      ]
+    }
+  ],
+  "permitAlternative": [
+    {
+      "tag": "p",
+      "href": null,
+      "className": "eyebrow",
+      "children": [
+        "09.30 / 此前另提的萨嘎备选（非图中 Plan B）"
+      ]
+    },
+    {
+      "tag": "h4",
+      "href": null,
+      "children": [
+        "经昂仁、桑桑，前往萨嘎"
+      ]
+    },
+    {
+      "tag": "p",
+      "href": null,
+      "className": "permit-route",
+      "children": [
+        "拉孜县 → 昂仁县城（昂仁金措、曲德寺）→ 桑桑高原牧场 / 桑桑湿地 → 索比亚拉山口等多个山口（约 5,098 m）→ 萨嘎县"
+      ]
+    },
+    {
+      "tag": "p",
+      "href": null,
+      "children": [
+        {
+          "tag": "strong",
+          "href": null,
+          "children": [
+            "拉孜之后可选："
+          ]
+        },
+        "加错拉山观景台为可选支线：仅在确认该方向无需查验边防证且允许通行时前往，否则跳过。"
+      ]
+    },
+    {
+      "tag": "p",
+      "href": null,
+      "className": "permit-footnote",
+      "children": [
+        "此方案未并入当前 Plan A / B / C 的每日数据。图中 Plan B 当晚住桑桑，而本备选住萨嘎。该预案从拉孜县起算；若前一晚仍住日喀则，需补上日喀则至拉孜的衔接。备用线里程、驾驶时间与费用待导航核实，页面现有数值仍为原路线口径。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "cinna-travel",
+  "private": true,
+  "version": "3.0.0",
+  "description": "2026 西藏阿里北线自驾行程手册",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "dev": "node scripts/dev.mjs",
+    "deploy": "node scripts/deploy.mjs"
+  },
+  "dependencies": {
+    "antd": "6.6.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
