@@ -1,4 +1,4 @@
-import {budgetFields,budgetDefaults,estimateBudget} from './budget-model.js';
+import {budgetFields,budgetDefaults,estimateBudget} from './budget-model.js?v=returns-1';
 
 const yuan=value=>new Intl.NumberFormat('zh-CN',{style:'currency',currency:'CNY',maximumFractionDigits:2}).format(value);
 const number=value=>new Intl.NumberFormat('zh-CN',{maximumFractionDigits:1}).format(value);

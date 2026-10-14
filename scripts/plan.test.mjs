@@ -7,6 +7,48 @@ import {mapDays,roadLeg,selectedMapDays} from '../autumn/map-model.js';
 import {attractionGroups,attractionDays} from '../autumn/attractions-data.js';
 import {drivingFor} from '../autumn/driving.js';
 import {estimateBudget,budgetDefaults,budgetFields} from '../autumn/budget-model.js';
+import {returnScenario,returnBudgetDifference} from '../autumn/return-options-model.js';
+
+test('两种返程高德记录连续且每天不超过5小时，环线不叠加第18天',()=>{
+  const data=JSON.parse(fs.readFileSync('autumn/return-options-data.json','utf8'));
+  assert.equal(data.legs.length,9);assert.equal(new Set(data.legs.map(leg=>leg.id)).size,9);
+  for(const leg of data.legs){
+    const url=new URL(leg.url);assert.equal(url.hostname,'www.amap.com');
+    assert.equal(url.searchParams.get('fname'),leg.from);assert.equal(url.searchParams.get('dname'),leg.to);
+    assert.ok(url.searchParams.get('fid')&&url.searchParams.get('did'));
+    assert.ok(leg.minutes>0&&leg.minutes<=300&&leg.km>0&&leg.tolls>=0);
+    assert.match(leg.fromRegion,/省 · .*市/);assert.match(leg.toRegion,/省 · .*市/);
+    assert.equal(leg.checkedDate,'2026-10-15');
+  }
+  for(const n of [15,16,17]){
+    const original=makePlan(n),before=structuredClone(original);
+    const a=returnScenario(original,data,'short'),b=returnScenario(original,data,'loop');
+    assert.equal(a.days,n);assert.equal(b.days,n===17?17:n+1);
+    assert.equal(a.km,1365.5);assert.equal(b.km,1486.6);assert.equal(a.minutes,950);assert.equal(b.minutes,1040);
+    assert.equal(a.tolls,655);assert.equal(b.tolls,683);
+    for(const scenario of [a,b]){
+      for(let i=1;i<scenario.legs.length;i++)assert.equal(scenario.legs[i-1].to,scenario.legs[i].from);
+      assert.equal(scenario.plan.at(-1).overnight.mode,'home');
+      assert.ok(scenario.plan.filter(day=>day.phase!=='返程').every(day=>original.some(old=>old.id===day.id)));
+    }
+    assert.deepEqual(original,before);
+  }
+  for(const id of ['loop-4','loop-5'])assert.equal(data.legs.find(leg=>leg.id===id).routeChoice,3);
+  assert.match(data.legs.find(leg=>leg.id==='loop-4').roads,/G0421许广/);
+  assert.ok(data.options[0].direct.alternativesKm.every(km=>km>=data.options[0].direct.km));
+});
+
+test('返程预算差额纳入额外一天和酒店，人数与房间单独联动',()=>{
+  const data=JSON.parse(fs.readFileSync('autumn/return-options-data.json','utf8')),audit=JSON.parse(fs.readFileSync('autumn/amap-times.json','utf8'));
+  const plan=makePlan(16),result=returnBudgetDifference(plan,audit,data,budgetDefaults);
+  assert.ok(Math.abs(result.delta-480.66)<0.03);assert.equal(result.hotels,1);assert.equal(result.days,1);assert.equal(result.cars,0);
+  const people=returnBudgetDifference(plan,audit,data,{...budgetDefaults,people:2});
+  assert.ok(Math.abs(people.delta-result.delta-92)<0.03);
+  const rooms=returnBudgetDifference(plan,audit,data,{...budgetDefaults,rooms:2});
+  assert.ok(Math.abs(rooms.delta-result.delta-287.5)<0.03);
+  assert.equal(returnBudgetDifference(plan,null,data,budgetDefaults),null);
+  assert.equal(returnBudgetDifference(plan,audit,data,{...budgetDefaults,people:NaN}),null);
+});
 
 test('预算区分按人、按车和按房计费，包含夜耗、损耗与一次机动金',()=>{
   const plan=[{id:'out-1',overnight:{mode:'car'}},{id:'chaji',overnight:{mode:'hotel'}},{id:'return-4',overnight:{mode:'home'}}];

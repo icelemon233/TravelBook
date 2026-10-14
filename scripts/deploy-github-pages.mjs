@@ -14,14 +14,14 @@ const branch=process.env.DEPLOY_BRANCH||'gh-pages';
 const tempBase=path.resolve(os.tmpdir());
 const temp=fs.mkdtempSync(path.join(tempBase,'cinna-pages-'));
 try{
-  git(['clone','--single-branch','--branch',branch,remote,temp]);
+  git(['clone','--depth','1','--single-branch','--branch',branch,remote,temp]);
   git(['rm','-r','--ignore-unmatch','.'],temp);
   for(const file of ['index.html','.nojekyll','autumn','assets','tibet','tibet-source.html'])fs.cpSync(path.join(root,file),path.join(temp,file),{recursive:true});
   fs.writeFileSync(path.join(temp,'404.html'),'<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>页面未找到 · Cinna Travel</title><body style="font:16px/2 system-ui;padding:10vw;background:#f4f0e7;color:#2d493d"><h1>页面未找到</h1><p><a href="https://icelemon233.github.io/cinna-travel/">返回赣皖旅游攻略</a> · <a href="https://icelemon233.github.io/cinna-travel/tibet/">查看西藏旅游攻略</a></p></body></html>');
   const hashes={};
   git(['add','-A'],temp);
   // Hash the staged bytes that Pages will serve, after Git's Windows newline normalization.
-  for(const file of ['index.html','autumn/app.js','autumn/style.css','autumn/trip-data.js','autumn/energy.js','autumn/route-map.js','autumn/route-map.css','autumn/itinerary.css','autumn/attractions.js','autumn/attractions-data.js','autumn/attractions.css','autumn/nights-data.js','autumn/nights.js','autumn/nights.css','autumn/driving.js','autumn/amap-times.json','autumn/budget-model.js','autumn/budget.js','autumn/budget.css','autumn/photo-sources.json','autumn/map-model.js','autumn/places.js','autumn/map-data.json','autumn/map-sources.json']){
+  for(const file of ['index.html','autumn/app.js','autumn/style.css','autumn/trip-data.js','autumn/energy.js','autumn/route-map.js','autumn/route-map.css','autumn/itinerary.css','autumn/attractions.js','autumn/attractions-data.js','autumn/attractions.css','autumn/nights-data.js','autumn/nights.js','autumn/nights.css','autumn/driving.js','autumn/amap-times.json','autumn/budget-model.js','autumn/budget.js','autumn/budget.css','autumn/return-options-data.json','autumn/return-options-model.js','autumn/return-options.js','autumn/return-options.css','autumn/photo-sources.json','autumn/map-model.js','autumn/places.js','autumn/map-data.json','autumn/map-sources.json']){
     const bytes=execFileSync('git',['show',`:${file}`],{cwd:temp,maxBuffer:32*1024*1024,stdio:['ignore','pipe','inherit']});
     hashes[file]=crypto.createHash('sha256').update(bytes).digest('hex');
   }

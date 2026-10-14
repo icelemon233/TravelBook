@@ -3,7 +3,7 @@ export const drivingLegIds={
 };
 export function drivingFor(day,audit){
   if(['chaji','buffer','extra'].includes(day.id))return {complete:true,minutes:0,km:0,legs:[],label:'不安排驾车 · 停车步行／休息'};
-  const ids=drivingLegIds[day.id]||[];
+  const ids=day.drivingLegIds||drivingLegIds[day.id]||[];
   const legs=ids.map(id=>audit?.legs?.find(leg=>leg.id===id)).filter(Boolean);
   if(!ids.length||legs.length!==ids.length)return {complete:false,legs,label:'高德具体起终点核对中'};
   const minutes=legs.reduce((sum,leg)=>sum+leg.minutes,0),km=Math.round(legs.reduce((sum,leg)=>sum+leg.km,0)*10)/10;
