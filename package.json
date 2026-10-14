@@ -1,0 +1,10 @@
+{
+  "name": "cinna-travel",
+  "private": true,
+  "version": "2.0.0",
+  "description": "2026 西藏阿里北线自驾行程手册",
+  "scripts": {
+    "dev": "node scripts/preview.cjs",
+    "deploy": "bash scripts/deploy-github-pages.sh"
+  }
+}
