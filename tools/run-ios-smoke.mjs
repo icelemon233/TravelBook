@@ -1,0 +1,10 @@
+import {execFileSync} from 'node:child_process';
+if(process.platform!=='darwin')throw new Error('iOS smoke test requires macOS and a disposable simulator.');
+const data=JSON.parse(execFileSync('xcrun',['simctl','list','devices','available','--json'],{encoding:'utf8'}));
+const devices=Object.values(data.devices).flat().filter(d=>d.isAvailable&&/^iPhone/.test(d.name));
+const device=devices.find(d=>d.state==='Booted')||devices[0];
+if(!device||!/^[0-9a-f-]{36}$/i.test(device.udid))throw new Error('No available iPhone simulator runtime.');
+if(device.state!=='Booted')execFileSync('xcrun',['simctl','boot',device.udid],{stdio:'inherit'});
+execFileSync('xcrun',['simctl','bootstatus',device.udid,'-b'],{stdio:'inherit',timeout:300000});
+console.log('Running actual native startup/storage on disposable simulator: '+device.name);
+execFileSync('flutter',['test','integration_test/native_smoke_test.dart','--no-pub','-d',device.udid,'--dart-define=NATIVE_TEST_DISPOSABLE=true','--reporter','expanded'],{stdio:'inherit',timeout:900000});

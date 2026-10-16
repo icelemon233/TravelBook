@@ -1,12 +1,15 @@
 {
-  "name": "cinna-travel",
+  "name": "cinna-travel-book-tools",
   "private": true,
-  "version": "3.0.0",
+  "version": "4.0.0",
   "type": "module",
-  "description": "江门出发的赣皖自驾旅游攻略，包含每日行程、充电与住宿安排",
+  "packageManager": "pnpm@11.25.0",
+  "description": "Migration and deployment tooling for the Flutter travel book",
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "check": "node --check autumn/app.js && node --check autumn/route-map.js && node --test scripts/plan.test.mjs",
-    "deploy": "node scripts/deploy-github-pages.mjs"
-  }
+    "export:legacy": "node tools/export-legacy.mjs",
+    "verify:assets": "node tools/export-legacy.mjs --check",
+    "dev": "node tools/serve-web.mjs",
+    "deploy": "node tools/deploy.mjs"
+  },
+  "devDependencies": {"esbuild": "0.28.2"}
 }

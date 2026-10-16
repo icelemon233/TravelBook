@@ -1,0 +1,11 @@
+{
+  "package": "pdfjs-dist",
+  "version": "6.2.108",
+  "source": "https://www.npmjs.com/package/pdfjs-dist/v/6.2.108",
+  "license": "Apache-2.0",
+  "files": {
+    "pdf.min.mjs": "e0be3863c23c8af2305b16548febd58e7f8874a460253317d7771cddbc1c0f6d",
+    "pdf.worker.min.mjs": "0613f41490dd6aaceed7a93fbbd38c85e6d6aa60474b6588c6e7709cfbe18cb3",
+    "LICENSE": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+  }
+}

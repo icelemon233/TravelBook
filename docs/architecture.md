@@ -1,0 +1,55 @@
+# 前端架构
+
+应用采用按功能组织的 MVVM。Android、iOS、Web 共用 `lib/` 下的业务模型、状态和页面，平台差异通过 Service 接口注入。旧 HTML/React 页面不参与运行，也没有 WebView 包装层。
+
+```mermaid
+flowchart LR
+  User[用户操作] --> View[View / Flutter Widget]
+  View --> VM[功能 ViewModel]
+  VM --> Domain[不可变模型与领域计算]
+  VM --> Repo[Repository 接口]
+  Repo --> Data[资产与本地资料 Repository]
+  Data --> Service[AssetReader / PreferencesStore]
+  VM --> Platform[文件 / 打印 / 地图快照接口]
+  Data --> State[状态流]
+  State --> VM
+  VM --> View
+```
+
+## 职责
+
+- `app/` 是组合根，负责依赖注入、路由、主题和自适应导航。页面不创建平台插件实例。
+- `features/books/domain/` 保存旅行册、行程版本、稳定日期 ID、住宿、参考来源等不可变模型。
+- `features/books/data/` 读取随包资产并缓存解析结果；数据失败可重试，不把异常解释为空行程。
+- `features/preferences/` 管理设备资料。Repository 是备注、清单、方案和预算的唯一持久化来源，写入按顺序提交。导入先验证再提交，与同时发生的编辑串行处理；保存失败保留会话内数据并显示状态。
+- `features/budget/domain/` 和 `features/energy/domain/` 是纯 Dart 计算，不依赖 Widget 或平台存储。赣皖预算、返程差额和西藏暂计沿用旧版规则，未知里程/价格保留未知。
+- `features/map/domain/` 处理 WGS84 几何、日期筛选、别名和缺失路段；`presentation/` 使用 CustomPainter。相同版本和日期复用投影结果，拖动缩放不重新解析道路数据。
+- 行程、预算、清单、风险、景点各有独立 ViewModel；`BookViewModel` 只协调旅行册与方案，不承担所有页面状态。
+- 文件选择、保存分享、打印、PDF 和 PNG 快照都有接口。原生插件在组合根注入，单测用替身验证控制流程，真实导出和浏览器交互另行验收。
+
+## 数据迁移
+
+`tools/export-legacy.mjs` 从固定 Git 提交读取旧源码，在开发时将两套路书整理为版本化 JSON。发布的应用仅解析数据，不执行旧 JavaScript。提交记录通过归档分支与合并父节点保留。
+
+资产中包含赣皖 3 个版本、西藏 30 个组合、12 处景点、48 项西藏清单与 14 项风险。原有道路缓存、来源日期、照片作者与授权一起保存。`pnpm verify:assets` 检查生成数据和图片是否仍与固定快照一致。
+
+用户资料采用独立 schema，不与旅行册数据混存。备注/清单按稳定 ID 保存，15/16/17 天重新编号不改变归属；住宿和门票金额可以按方案保存。预算重置不影响备注或清单。
+
+Web 首次启动兼容 `cinna-ganwan-v1`、`tibet-checklist-personal-v2` 和旧 `tibet-checklist`。保留原键；Android/iOS 和不同设备通过 JSON 备份迁移。导入文件大小、schema、文本长度和数值类型会先验证；不支持的文件不覆盖现有资料。
+
+## 路由与资源
+
+- `/` 为旅行册目录；`/book/:bookId/:section` 为功能页面，`?day=` 表示稳定日期 ID。
+- Web 使用 hash 路由兼容 GitHub Pages 子路径；原西藏入口迁至新站的 `tibet/` 并重定向到对应 Flutter 页面。
+- 小屏使用底部导航与完整目录，大屏使用侧边目录。布局不负责预算或数据筛选。
+- 中文字体、图片、道路、PDF.js 均随包部署；Web 使用本应用范围的版本缓存，不清除个人 localStorage 或其他网站缓存。
+
+## 验证
+
+36 组旧 JavaScript 预算结果是迁移的对照数据，覆盖所有西藏组合及赣皖默认/多人参数。测试同时覆盖未知值、返程天数、重复收费、状态隔离、损坏存储、导入失败、真实 PNG/PDF 生成、路由、备注编辑、预算重置和手机大字号布局。
+
+三端 CI 使用锁定依赖与 Flutter 3.47.7。Android 开发包、iOS 模拟器和未签名设备构建、Flutter Web 分别生成。模拟器构建、单测和浏览器检查不能代替真机文件分享、系统打印或正式签名/上架验收。
+
+参考：[Flutter 架构建议](https://docs.flutter.dev/app-architecture/recommendations)、[架构指南](https://docs.flutter.dev/app-architecture/guide)、[自适应布局](https://docs.flutter.dev/ui/adaptive-responsive)。
+
+原生 smoke test 使用真实资产、SharedPreferences 平台插件和 Canvas 渲染。只有明确传入 `NATIVE_TEST_DISPOSABLE=true` 才会执行，且会在结束时恢复测试前的资料；不能在个人常用设备上运行。

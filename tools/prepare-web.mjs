@@ -1,0 +1,21 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const root='build/web';
+if(!fs.existsSync(root+'/main.dart.js'))throw new Error('Build Flutter Web first');
+fs.writeFileSync(root+'/.nojekyll','');
+fs.copyFileSync(root+'/index.html',root+'/404.html');
+fs.mkdirSync(root+'/tibet',{recursive:true});
+fs.writeFileSync(root+'/tibet/index.html','<!doctype html><html lang="zh-CN"><meta charset="UTF-8"><title>西藏路书</title><script>location.replace("../#/book/tibet/overview")</script><a href="../#/book/tibet/overview">打开西藏路书</a></html>');
+const hashes={};
+function walk(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())walk(file);else{const relative=path.relative(root,file).replaceAll('\\','/');
+  if(['service_worker.js','deployment.json'].includes(relative)||relative.endsWith('.map')||relative.includes('skwasm'))continue;
+  hashes[relative]=crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');}}}
+walk(root);
+const release=crypto.createHash('sha256').update(JSON.stringify(hashes)).digest('hex').slice(0,20),files=Object.keys(hashes).map(encodeURI);
+fs.writeFileSync(root+'/service_worker.js',`const CACHE='cinna-travel-book-${release}';const FILES=${JSON.stringify(files)};\nself.addEventListener('install',event=>event.waitUntil((async()=>{const cache=await caches.open(CACHE);for(let i=0;i<FILES.length;i+=12)await cache.addAll(FILES.slice(i,i+12));})()));\nself.addEventListener('activate',event=>event.waitUntil((async()=>{for(const key of await caches.keys())if(key.startsWith('cinna-travel-book-')&&key!==CACHE)await caches.delete(key);await self.clients.claim();})()));\nself.addEventListener('fetch',event=>{if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;event.respondWith(caches.open(CACHE).then(async cache=>{const cached=await cache.match(event.request);if(cached)return cached;try{return await fetch(event.request);}catch(error){if(event.request.mode==='navigate')return (await cache.match('index.html'))||Response.error();throw error;}}));});\n`);
+fs.appendFileSync(root+'/service_worker.js',"self.addEventListener('message',event=>{if(event.data?.type==='ACTIVATE')self.skipWaiting();});\n");
+const commit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+fs.writeFileSync(root+'/deployment.json',JSON.stringify({app:'cinna-travel-book',sourceCommit:commit,release,flutter:'3.47.7',builtAt:new Date().toISOString(),files:hashes},null,2));
+console.log(JSON.stringify({release,sourceCommit:commit,files:files.length}));

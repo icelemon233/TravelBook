@@ -1,2 +1,16 @@
 .DS_Store
 *.log
+node_modules/
+.local/
+.release/
+.dart_tool/
+.flutter-plugins-dependencies
+.idea/
+*.iml
+build/
+coverage/
+android/local.properties
+*.jks
+*.keystore
+key.properties
+.env*
