@@ -93,6 +93,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
+      - name: Apply pinned upstream iOS simulator log-readiness fix
+        run: node tools/apply-ios-tool-fix.mjs
       - run: flutter pub get --enforce-lockfile
       - run: flutter build ios --simulator --debug --no-codesign --no-pub
       - run: tar -czf build/travel-book-ios-simulator.tar.gz -C build/ios/iphonesimulator Runner.app

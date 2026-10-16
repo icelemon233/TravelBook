@@ -8,3 +8,4 @@
 *.bin binary
 assets/fonts/OFL.txt -text whitespace=-blank-at-eol
 web/vendor/pdfjs/** -text
+tools/patches/*.patch whitespace=-blank-at-eol

@@ -7,4 +7,4 @@ if(!device||!/^[0-9a-f-]{36}$/i.test(device.udid))throw new Error('No available 
 if(device.state!=='Booted')execFileSync('xcrun',['simctl','boot',device.udid],{stdio:'inherit'});
 execFileSync('xcrun',['simctl','bootstatus',device.udid,'-b'],{stdio:'inherit',timeout:300000});
 console.log('Running actual native startup/storage on disposable simulator: '+device.name);
-execFileSync('flutter',['test','integration_test/native_smoke_test.dart','--no-pub','-d',device.udid,'--dart-define=NATIVE_TEST_DISPOSABLE=true','--reporter','expanded'],{stdio:'inherit',timeout:900000});
+execFileSync('flutter',['test','integration_test/native_smoke_test.dart','--no-pub','-d',device.udid,'--dart-define=NATIVE_TEST_DISPOSABLE=true','--reporter','expanded','--verbose'],{stdio:'inherit',timeout:900000});

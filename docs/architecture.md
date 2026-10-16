@@ -53,3 +53,5 @@ Web 首次启动兼容 `cinna-ganwan-v1`、`tibet-checklist-personal-v2` 和旧 
 参考：[Flutter 架构建议](https://docs.flutter.dev/app-architecture/recommendations)、[架构指南](https://docs.flutter.dev/app-architecture/guide)、[自适应布局](https://docs.flutter.dev/ui/adaptive-responsive)。
 
 原生 smoke test 使用真实资产、SharedPreferences 平台插件和 Canvas 渲染。只有明确传入 `NATIVE_TEST_DISPOSABLE=true` 才会执行，且会在结束时恢复测试前的资料；不能在个人常用设备上运行。
+
+iOS CI 给固定版本的主机工具补入 Flutter 官方 [#193142](https://github.com/flutter/flutter/pull/193142) 对模拟器日志启动竞态的修复，避免编译后漏读 VM Service 地址而挂起。补丁固定上游提交和文件校验和，只允许在一次性 macOS CI 主机应用；Flutter 运行库仍为 3.47.7。SDK 升级时需复核并移除已包含的临时回补。
