@@ -10,7 +10,7 @@ fs.mkdirSync(root+'/tibet',{recursive:true});
 fs.writeFileSync(root+'/tibet/index.html','<!doctype html><html lang="zh-CN"><meta charset="UTF-8"><title>西藏路书</title><script>location.replace("../#/book/tibet/overview")</script><a href="../#/book/tibet/overview">打开西藏路书</a></html>');
 const hashes={};
 function walk(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())walk(file);else{const relative=path.relative(root,file).replaceAll('\\','/');
-  if(['service_worker.js','deployment.json'].includes(relative)||relative.endsWith('.map')||relative.includes('skwasm'))continue;
+  if(['service_worker.js','deployment.json','.last_build_id','.nojekyll'].includes(relative)||relative.endsWith('.map')||relative.includes('skwasm'))continue;
   hashes[relative]=crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');}}}
 walk(root);
 const release=crypto.createHash('sha256').update(JSON.stringify(hashes)).digest('hex').slice(0,20),files=Object.keys(hashes).map(encodeURI);
