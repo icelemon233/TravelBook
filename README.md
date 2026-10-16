@@ -1,109 +1,32 @@
-# Cinna Travel · 赣皖自驾旅游攻略
+# Cinna Travel
 
-江门出发的电车自驾旅游攻略，采用床车与酒店住宿。默认16天，可调15/17天；日期未定，用Day1开始的相对日程。
+English | [简体中文](./README.zh-CN.md)
 
-线上：<https://icelemon233.github.io/cinna-travel/>；原西藏攻略保留在 <https://icelemon233.github.io/cinna-travel/tibet/>。
+Interactive road-trip guides that bring daily routes, maps, budgets, notes, and checklists together in one browser tab.
 
-## 已确定的约束
+[Open the travel guides](https://icelemon233.github.io/cinna-travel/)
 
-- 单司机，每天纯驾驶目标4–5小时；充电、吃饭、休息另计。
-- 六站顺序（含浮梁补给）：江门→浮梁→瑶里→婺源北线→深渡→阳产土楼→查济→江门。
-- 实际续航约300km，车宿需要整夜空调。车型、电池容量、夜耗尚未知，不承诺固定损耗。
-- 床车为主，每隔2–3晚住酒店恢复，不安排民宿。阳产白天游览、山下过夜，不强求日出。
-- 长途高速优先；景观路在时间、路况允许时走。快充不限定县城，县城兜底。
-- 驾驶上限优先：去程3天、返程4天。16天含1天机动；15天删查济周边一天，17天多一天可挪动缓冲。
+## Plan and review a trip
 
-## 16天参考安排
+- Browse daily itineraries and compare the available route variants.
+- Read route maps and driving references alongside each day's plan.
+- Adjust travel budget and vehicle energy assumptions.
+- Keep notes and preparation checklists, then print a copy to take along.
 
-| 天数 | 行程 | 高德预计驾驶 | 当晚住宿 |
-| --- | --- | --- | --- |
-| Day1 | 江门 → 韶关 | 高德预计3小时30分钟 · 310.2km | 住车里 · 韶州公园北广场东停车场（广东省 · 韶关市 · 武江区） |
-| Day2 | 韶关 → 泰和 | 高德预计3小时38分钟 · 339.4km | 住酒店 · 维也纳酒店（泰和高铁站店）（江西省 · 吉安市 · 泰和县） |
-| Day3 | 泰和 → 浮梁县城 | 高德预计4小时48分钟 · 465km · 接近5小时上限 | 住车里 · 浮梁古县衙游客中心停车场（江西省 · 景德镇市 · 浮梁县） |
-| Day4 | 浮梁 → 瑶里 | 高德预计45分钟 · 43.9km | 住车里 · 瑶里古镇停车场（江西省 · 景德镇市 · 浮梁县 · 瑶里镇） |
-| Day5 | 瑶里 → 菊径 → 清华镇 | 高德预计1小时10分钟 · 47.7km（分段合计） | 住车里 · 彩虹桥景区停车场（江西省 · 上饶市 · 婺源县 · 清华镇） |
-| Day6 | 婺源北线，清华为基地 | 高德预计58分钟 · 42.6km（分段合计） | 住酒店 · 婺源清华园饭店（江西省 · 上饶市 · 婺源县 · 清华镇） |
-| Day7 | 清华 → 深渡 | 高德预计3小时22分钟 · 145.2km | 住车里 · 新安江山水画廊风景区停车场（安徽省 · 黄山市 · 歙县 · 深渡镇） |
-| Day8 | 深渡 → 阳产 → 深渡 | 高德预计26分钟 · 11.4km（分段合计） | 住车里 · 新安江山水画廊风景区停车场（安徽省 · 黄山市 · 歙县 · 深渡镇） |
-| Day9 | 深渡 → 查济 | 高德预计2小时48分钟 · 140.8km | 住车里 · 查济古建筑群游客中心停车场（安徽省 · 宣城市 · 泾县 · 桃花潭镇） |
-| Day10 | 查济古村游览 | 不安排驾车 · 停车步行／休息 | 住酒店 · 泾县查济宜鸿酒店（安徽省 · 宣城市 · 泾县 · 桃花潭镇） |
-| Day11 | 查济周边／桃花潭，可选 | 高德预计50分钟 · 41.7km（分段合计） | 住车里 · 查济古建筑群游客中心停车场（安徽省 · 宣城市 · 泾县 · 桃花潭镇） |
-| Day12 | 查济／天气／补觉机动日 | 不安排驾车 · 停车步行／休息 | 住酒店 · 泾县查济宜鸿酒店（安徽省 · 宣城市 · 泾县 · 桃花潭镇） |
-| Day13 | 查济 → 浮梁县城 | 高德预计3小时56分钟 · 294.2km | 住车里 · 浮梁古县衙游客中心停车场（江西省 · 景德镇市 · 浮梁县） |
-| Day14 | 浮梁 → 泰和 | 高德预计4小时50分钟 · 466km · 接近5小时上限 | 住车里 · 泰和站地下停车场（江西省 · 吉安市 · 泰和县） |
-| Day15 | 泰和 → 韶关 | 高德预计3小时50分钟 · 354.3km | 住酒店 · 维也纳国际酒店（韶关高铁站广场店）（广东省 · 韶关市 · 武江区） |
-| Day16 | 韶关 → 江门 | 高德预计3小时23分钟 · 300km | 住家里 · 江门家中（广东省 · 江门市） |
+Notes, budget settings, and checklist progress are saved in the current browser. They do not sync across devices. Maps and driving estimates support planning; check current conditions before traveling.
 
-2026-10-11已在高德网页按具体酒店、停车场或村落地标逐段核对。预计时间不含充电、吃饭、休息和接驳；出发时按实时路况重算，超过5小时则拆段并同步调整住宿。默认北线选择虹关，漳村和绕南古窑另行导航。地图彩线为公路参考，所选道路以高德核对记录为准。
+## Preview locally
 
-默认16天共10晚车宿、5晚酒店，Day16回家。每晚的具体地址、来源和车宿备用酒店见网页住宿清单。所有酒店尚未预订，所有车宿点的车内留宿许可仍待管理方确认；不将地图上的停车场等同于已获准过夜。
-
-## 事实与修订
-
-取消首日约900km赶路、泾县专门补电住宿日、未经核实的民宿推荐。原文28/85/90km等道路里程、高速费855元、阳产固定30元均未作为已核实数据写入。
-
-- [深渡新增充电桩](https://www.huangshan.gov.cn/zxzx/qxdt/8412572.html)：20余台，未说明AC/DC或实时可用状态。
-- [阳产服务规范工作](https://www.ahjjw.com.cn/html/lvyou/2026/0410/529898.html)：换乘、票务服务调整，价格和时段需复核。
-- [查济施工进度](https://www.ahjx.gov.cn/file_xc/6/202604/2026040951deb60bba9c46ccbf419800b50021fa.pdf)：2026年4月已进场施工，不等于已运营。
-- [高速补能查询](https://www.mot.gov.cn/zhuanti/2025chunyun/chunyunbaodao/202501/t20250127_4163324.html)：可用e路畅通查询高速充电设施。
-- [瑶里交通参考](https://www.jianzhuyichan.com/Pages/ProjectDetails.aspx?id=25)、[查济交通参考](https://www.jianzhuyichan.com/Pages/ProjectDetails.aspx?id=335)：历史资料仅作核查线索。
-
-资料核查日期2026-10-11。不提供实时天气、站点状态、停车许可、房价或路况；具体场站和过夜点须出发前核实。
-
-## 文件与功能
-
-原生HTML/CSS/JavaScript，无构建依赖：
-
-- `index.html`：固定说明与页面结构。
-- `autumn/trip-data.js`：逐日路线、补能、过夜条件、来源与变体。
-- `autumn/app.js`：阶段筛选、备注、核对清单、本地保存与打印。
-- `autumn/energy.js`：行驶窗口和夜耗粗算。容量/夜耗未知时不生成夜间SOC结论。
-- `autumn/route-map.js` / `route-map.css`：与西藏路书相同形式的公路地图，按Day分色、日期筛选、放大滚动和高清PNG导出。左侧江门往返，右侧赣皖游玩区域。
-- `autumn/places.js`：统一地名的省、市、县归属，供每日行程、地图地名表和地图搜索使用。
-- `autumn/itinerary.css`：每日行程固定列布局，阶段标签与展开按钮对齐。
-- `autumn/nights-data.js`：按稳定Day ID指定逐晚车宿、酒店或回家，列出具体名称、地址、来源、确认条件及备用酒店；不是预订或车宿许可确认。
-- `autumn/nights.js` / `nights.css`：逐晚住宿清单，桌面表格、手机卡片；15／16／17天版本同步编号并跳转每日行程。
-- `autumn/amap-times.json` / `driving.js`：高德网页逐段查询记录、具体起终点及可重开路线链接；每日驾驶时间与来源表从同一份记录渲染。预计时间不含充电休息，往返和途经日显示分段合计。
-- `autumn/map-model.js`：按稳定行程ID映射路线，随15/16/17天版本调整Day编号。
-- `autumn/map-data.json` / `map-sources.json`：缓存的OSM公路、河段、地名节点与OSRM参考路线及来源记录。WGS84，非实时导航；节点不是已经核验的停车场。
-- `tibet/`：原gh-pages线上西藏页面完整快照，源提交 `f415d3d4a474b9680cbb9e0ced9d02985f2ce75b`，包含样式、脚本、图片。
-- `tibet-source.html`：原main的西藏页面源码快照，与原线上版本不同。
-
-备注、全部预算参数与核对进度仅保存在当前浏览器localStorage，不上传、不跨设备同步。变体按稳定ID保存备注，不随Day序号改变而错位。
-
-地图数据2026-10-11获取，随网站静态部署；查看地图和导出不需要外部地图服务。彩线使用OSRM快速参考路线，游玩段选择国省道时以当天导航重算。阳产标注为村落参考点，上山停车与接驳另行确认；桃花潭为镇级参考点。公路数据署名© OpenStreetMap contributors，ODbL。数据重建使用Python标准库：按`map-sources.json`的Overpass查询保存原始JSON，再运行`python scripts/build-map-data.py --osm <原始文件路径>`，必要时加`--proxy`。
-
-## 本地预览与验证
-
-需要Node.js，无第三方安装依赖。
+With Node.js installed, run this command from a clone of the repository:
 
 ```sh
 npm run dev
-npm run check
 ```
 
-打开 <http://127.0.0.1:4173/>。也可直接运行 `node scripts/dev.mjs`、`node --check autumn/app.js` 和 `node --test scripts/plan.test.mjs`。
+Open [localhost:4173](http://localhost:4173/). No additional packages are required for this version.
 
-## GitHub Pages发布
+## Map credits and license
 
-先提交并推送源码到main，再执行：
+Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), available under the ODbL. Road routes include references from OSRM.
 
-```sh
-npm run deploy
-```
-
-跨平台Node脚本检查工作区干净、运行测试，将静态站与西藏快照同步到gh-pages，正常提交推送，不强推。`deployment.json`记录源提交与关键文件SHA-256，便于核对线上状态。
-
-`DEPLOY_REMOTE` / `DEPLOY_BRANCH`可指定目标，默认沿用origin和gh-pages。推送成功后仍需等待Pages构建完成并核实线上内容。
-
-## 旅行预算
-
-目录中的旅行预算按15／16／17天版本同步计算高德路线里程、酒店与车宿晚数。支持人数、房间数、餐饮、酒店、行驶与夜间用电、充电单价和损耗、里程余量、高速费、门票景交、停车、其他费用及机动金。初始参数是可编辑的预算假设，不是实时价格。预算包含出发前补电成本，机动金已包含在总额中；人数变化影响餐饮与门票，房间数独立决定酒店费用，车费按全车计。参数只保存在浏览器，恢复初始预算不会清除行程备注或核对清单。
-
-`autumn/budget-model.js`负责校验及计算，`budget.js`和`budget.css`负责界面与本地参数联动。
-
-## 两种返程备选方案
-
-2026-10-15高德网页核查，记录在`autumn/return-options-data.json`。A沿最短高速主通道经乐平、石城、龙川分4天回江门；B经九江、宜春、郴州、清远分5天回江门，避开来时的主要走廊。A分日合计1365.5km／15小时50分／通行费估算655元；B为1486.6km／17小时20分／683元。A的直达高速候选为1310.8km，不等于分日进出城区后的里程，也不宣称全路网绝对最短。B最后两段应按记录的道路选方案，避免自动回到乐广、佛清从和沈海走廊。
-
-返程对比独立于当前主方案，不修改主地图、每日住宿或总预算。以政府POI作公共计时参考，停车场与酒店待选定后重算；比较表注明拟车宿或拟酒店。默认16天版对应A共16天、B共17天；原17天版的额外查济缓冲转作B的第5天返程，不叠加第18天。预算差额使用现有预算参数，并单独计入高德通行估算差额，不把差额重复加进主预算。
+Project license: [MIT](./LICENSE).
