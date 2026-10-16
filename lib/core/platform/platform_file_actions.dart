@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,9 +27,14 @@ class PlatformFileActions implements FileActions {
     String mime, {
     Rect? origin,
   }) async {
+    final file = XFile.fromData(bytes, mimeType: mime, name: name);
+    if (kIsWeb) {
+      await file.saveTo(name);
+      return;
+    }
     await SharePlus.instance.share(
       ShareParams(
-        files: [XFile.fromData(bytes, mimeType: mime)],
+        files: [file],
         fileNameOverrides: [name],
         sharePositionOrigin: origin,
         downloadFallbackEnabled: true,

@@ -10,6 +10,8 @@ Road-trip books for **Android, iOS, and Web**, built from one Flutter codebase. 
 
 Choose the Jiangxi–Anhui or Tibet guide, then select a route variant. Follow a day, inspect its navigation references and overnight stop, adjust the budget, or mark preparation items. Maps can be filtered by day, zoomed, and saved as PNGs; a full book can be exported as a Chinese PDF or sent to system printing.
 
+Web exports download directly in the browser. Android and iOS exports use the system share sheet.
+
 - Jiangxi–Anhui: 15/16/17-day plans, 12 attractions, charging and overnight energy estimates, and two return-route comparisons.
 - Tibet: A/B/C permit scenarios, northern branches, Shenzha/Bangor stays, 48 preparation items, and 14 filterable risks.
 

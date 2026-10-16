@@ -18,6 +18,8 @@ Web 发布地址：[icelemon233.github.io/cinna-travel-book](https://icelemon233
 
 所有旅行资料沿用原核查日期。资料迁移不表示实时房价、天气、充电站、停车过夜许可或办证政策已经重新核实。备注与清单不上传，不自动跨设备同步。
 
+Web 导出直接下载文件；Android 和 iOS 导出使用系统分享面板。
+
 ## 架构
 
 按功能组织的 MVVM，使用不可变领域模型、抽象 Repository、独立 ViewModel 和平台 Service。`app/` 是依赖注入组合根；Widget 不执行预算、路线规则或存储操作。复杂计算为纯 Dart，可独立测试。

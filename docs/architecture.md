@@ -25,7 +25,7 @@ flowchart LR
 - `features/budget/domain/` 和 `features/energy/domain/` 是纯 Dart 计算，不依赖 Widget 或平台存储。赣皖预算、返程差额和西藏暂计沿用旧版规则，未知里程/价格保留未知。
 - `features/map/domain/` 处理 WGS84 几何、日期筛选、别名和缺失路段；`presentation/` 使用 CustomPainter。相同版本和日期复用投影结果，拖动缩放不重新解析道路数据。
 - 行程、预算、清单、风险、景点各有独立 ViewModel；`BookViewModel` 只协调旅行册与方案，不承担所有页面状态。
-- 文件选择、保存分享、打印、PDF 和 PNG 快照都有接口。原生插件在组合根注入，单测用替身验证控制流程，真实导出和浏览器交互另行验收。
+- 文件选择、保存分享、打印、PDF 和 PNG 快照都有接口。Web 保存直接下载文件，移动端交给系统分享面板；平台差异封装在 Service 中。原生插件在组合根注入，单测用替身验证控制流程，真实导出和浏览器交互另行验收。
 
 ## 数据迁移
 
