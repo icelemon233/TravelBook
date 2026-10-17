@@ -53,6 +53,7 @@ class BudgetViewModel extends BookFeatureViewModel implements BudgetSummary {
     notifyListeners();
     final value = raw.trim().isEmpty ? null : double.tryParse(raw);
     if (raw.trim().isNotEmpty && (value == null || !value.isFinite)) return;
+    if (error(field) != null) return;
     await preferences.updateBook(
       book.id,
       (p) => p.withBudget(

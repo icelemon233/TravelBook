@@ -219,6 +219,43 @@ void main() {
   });
 
   test(
+    'invalid numeric budget drafts never corrupt durable notes or backups',
+    () async {
+      final store = MemoryPreferencesStore();
+      final prefs = await preferences(store);
+      await prefs.updateBook('ganwan', (p) => p.withNote('out-1', '保留已有备注'));
+      final book = BookViewModel(books.first, prefs);
+      final budget = BudgetViewModel(book, prefs);
+      final people = budget.fields.firstWhere((field) => field.id == 'people');
+      for (final raw in ['0', '1.5', '10000000000']) {
+        await budget.edit(people, raw);
+        expect(budget.input(people), raw);
+        expect(budget.error(people), isNotNull);
+        expect(prefs.snapshot.value.forBook('ganwan').budget['people'], isNull);
+        final restarted = await preferences(store);
+        expect(restarted.snapshot.error, isNull);
+        expect(
+          restarted.snapshot.value.forBook('ganwan').notes['out-1'],
+          '保留已有备注',
+        );
+        expect(
+          UserPreferences.import(restarted.snapshot.value.backup())
+              .forBook('ganwan')
+              .budget['people'],
+          isNull,
+        );
+        await restarted.dispose();
+      }
+      await budget.edit(people, '2');
+      expect(budget.error(people), isNull);
+      expect(prefs.snapshot.value.forBook('ganwan').budget['people'], 2);
+      budget.dispose();
+      book.dispose();
+      await prefs.dispose();
+    },
+  );
+
+  test(
     'PDF waits for an existing map load and includes the resulting map',
     () async {
       final prefs = await preferences();
