@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
-import '../../../core/ui/backup_dialogs.dart';
+import '../../books/book_components.dart';
+import '../../export/backup_dialogs.dart';
 import '../../books/domain/reference.dart';
-import '../../export/presentation/actions_view_model.dart';
-import '../../preferences/presentation/preferences_status_view_model.dart';
+import '../../export/export_actions.dart';
+import '../../preferences/preferences_status.dart';
 import 'library_view_model.dart';
 
 class LibraryScreen extends StatelessWidget {
@@ -17,8 +18,8 @@ class LibraryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<LibraryViewModel>(),
-        actions = context.watch<ActionsViewModel>(),
-        status = context.watch<PreferencesStatusViewModel>();
+        actions = context.watch<ExportActions>(),
+        status = context.watch<PreferencesStatus>();
     return Scaffold(
       appBar: AppBar(
         title: const Text(

@@ -4,8 +4,9 @@ import 'package:flutter/foundation.dart';
 
 import '../../preferences/domain/preferences_repository.dart';
 import '../domain/travel_book.dart';
+import '../book_session.dart';
 
-class BookViewModel extends ChangeNotifier {
+class BookViewModel extends ChangeNotifier implements BookSession {
   BookViewModel(this.book, this.preferences) {
     _variant = book.variant(
       preferences.snapshot.value.forBook(book.id).variantId,
@@ -18,10 +19,12 @@ class BookViewModel extends ChangeNotifier {
       }
     });
   }
+  @override
   final TravelBook book;
   final PreferencesRepository preferences;
   late TripVariant _variant;
   late final StreamSubscription<PreferencesSnapshot> _subscription;
+  @override
   TripVariant get variant => _variant;
   List<TripSelector> get selectors => book.selectors
       .where((selector) => selector.visibleFor(_variant))
@@ -39,26 +42,6 @@ class BookViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    unawaited(_subscription.cancel());
-    super.dispose();
-  }
-}
-
-abstract class BookFeatureViewModel extends ChangeNotifier {
-  BookFeatureViewModel(this.bookModel, this.preferences) {
-    bookModel.addListener(onBookChanged);
-    _subscription = preferences.changes.listen((_) => onPreferencesChanged());
-  }
-  final BookViewModel bookModel;
-  final PreferencesRepository preferences;
-  late final StreamSubscription<PreferencesSnapshot> _subscription;
-  TravelBook get book => bookModel.book;
-  TripVariant get variant => bookModel.variant;
-  void onBookChanged() => notifyListeners();
-  void onPreferencesChanged() => notifyListeners();
-  @override
-  void dispose() {
-    bookModel.removeListener(onBookChanged);
     unawaited(_subscription.cancel());
     super.dispose();
   }

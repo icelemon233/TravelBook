@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/ui/page_components.dart';
+import '../../books/book_components.dart';
 import '../../books/domain/reference.dart';
-import '../../budget/presentation/budget_view_model.dart';
+import '../../budget/budget_summary.dart';
+import '../../books/book_session.dart';
 
 class ReturnsScreen extends StatelessWidget {
   const ReturnsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<BudgetViewModel>(),
+    final model = context.watch<BudgetSummary>(),
+        book = context.watch<BookSession>().book,
         comparison = model.returnComparison;
     return TravelPage(
       children: [
@@ -17,7 +20,7 @@ class ReturnsScreen extends StatelessWidget {
           number: '07',
           title: '两种返程',
           description:
-              '高德核对日期：${model.book.returnOptions?.checkedDate ?? ''}。对比独立于当前主行程，不修改主地图、住宿清单或总预算。',
+              '高德核对日期：${book.returnOptions?.checkedDate ?? ''}。对比独立于当前主行程，不修改主地图、住宿清单或总预算。',
         ),
         if (comparison != null) ...[
           ResponsiveCards(
@@ -79,8 +82,7 @@ class ReturnsScreen extends StatelessWidget {
                 : '按当前预算参数，B 比 A ${comparison.delta! >= 0 ? '增加' : '减少'}约 ¥${comparison.delta!.abs().toStringAsFixed(2)}；${comparison.dayDifference == 0 ? '两案天数相同' : 'B 多 ${comparison.dayDifference} 天'}。差额只比较两条返程的不同费用，未重复加入共同的去程费用。',
           ),
         ],
-        if (model.book.returnOptions != null)
-          Notice(model.book.returnOptions!.note),
+        if (book.returnOptions != null) Notice(book.returnOptions!.note),
         const Notice('打开高德后，按所列道路选择路线；推荐序号、收费和预计车程会变化。公共计时参考点不是已经确认的酒店或车宿点。'),
       ],
     );

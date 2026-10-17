@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
+import '../../books/book_components.dart';
 import '../../books/domain/reference.dart';
-import '../../books/presentation/book_view_model.dart';
+import '../../books/book_session.dart';
 
 class SourcesScreen extends StatelessWidget {
   const SourcesScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<BookViewModel>(), book = model.book;
+    final model = context.watch<BookSession>(), book = model.book;
     return TravelPage(
       children: [
         const PageHeading(

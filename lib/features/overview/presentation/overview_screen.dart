@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
-import '../../books/presentation/book_view_model.dart';
-import '../../budget/presentation/budget_view_model.dart';
-import '../../preparation/presentation/preparation_view_model.dart';
+import '../../books/book_components.dart';
+import '../../books/book_session.dart';
+import '../../budget/budget_summary.dart';
+import '../../preparation/preparation_progress.dart';
 
 class OverviewScreen extends StatelessWidget {
   const OverviewScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<BookViewModel>(),
-        budget = context.watch<BudgetViewModel>(),
-        preparation = context.watch<PreparationViewModel>();
+    final model = context.watch<BookSession>(),
+        budget = context.watch<BudgetSummary>(),
+        preparation = context.watch<PreparationProgress>();
     final book = model.book,
         variant = model.variant,
         photo = book.photo(book.coverId),

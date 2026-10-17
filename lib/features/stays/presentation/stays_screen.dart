@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
-import '../../books/presentation/book_view_model.dart';
+import '../../books/book_components.dart';
+import '../../books/book_session.dart';
 
 class StaysScreen extends StatelessWidget {
   const StaysScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<BookViewModel>();
+    final model = context.watch<BookSession>();
     return TravelPage(
       children: [
         const PageHeading(

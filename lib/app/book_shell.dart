@@ -5,11 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../core/ui/page_components.dart';
-import '../core/ui/backup_dialogs.dart';
+import '../features/export/backup_dialogs.dart';
 import '../features/books/presentation/book_view_model.dart';
-import '../features/export/presentation/actions_view_model.dart';
-import '../features/preferences/presentation/preferences_status_view_model.dart';
-import 'travel_theme.dart';
+import '../features/export/export_actions.dart';
+import '../features/preferences/preferences_status.dart';
+import '../core/ui/travel_theme.dart';
 
 class SectionDestination {
   const SectionDestination(this.label, this.icon);
@@ -41,8 +41,8 @@ class BookShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<BookViewModel>(),
-        actions = context.watch<ActionsViewModel>(),
-        status = context.watch<PreferencesStatusViewModel>();
+        actions = context.watch<ExportActions>(),
+        status = context.watch<PreferencesStatus>();
     final wide = MediaQuery.sizeOf(context).width >= 1000, book = model.book;
     return Scaffold(
       appBar: AppBar(
@@ -257,7 +257,7 @@ class BookShell extends StatelessWidget {
 
   Future<void> _action(
     BuildContext context,
-    ActionsViewModel actions,
+    ExportActions actions,
     String value,
   ) async {
     switch (value) {
@@ -324,7 +324,7 @@ class _SideNavigation extends StatelessWidget {
           icon: const Icon(Icons.swap_horiz, size: 18),
           label: const Text('切换路书'),
         ),
-        Consumer<PreferencesStatusViewModel>(
+        Consumer<PreferencesStatus>(
           builder: (_, status, _) => Padding(
             padding: const EdgeInsets.all(12),
             child: Text(

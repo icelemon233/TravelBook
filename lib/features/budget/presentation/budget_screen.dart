@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
+import '../../books/book_components.dart';
 import '../../../core/ui/value_editor.dart';
 import '../domain/expense_labels.dart';
 import 'budget_view_model.dart';

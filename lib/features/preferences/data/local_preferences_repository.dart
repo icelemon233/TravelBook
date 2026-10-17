@@ -18,6 +18,7 @@ class LocalPreferencesRepository implements PreferencesRepository {
   Future<void> _tail = Future.value();
   Future<void>? _importBarrier;
   int _revision = 0;
+  int _replacementRevision = 0;
   bool _saving = false, _closed = false, _readFailed = false;
   String? _error, _recoveryRaw;
   @override
@@ -26,6 +27,7 @@ class LocalPreferencesRepository implements PreferencesRepository {
     saving: _saving,
     error: _error,
     recoveryRaw: _recoveryRaw,
+    replacementRevision: _replacementRevision,
   );
   @override
   Stream<PreferencesSnapshot> get changes => _controller.stream;
@@ -36,20 +38,30 @@ class LocalPreferencesRepository implements PreferencesRepository {
   @override
   Future<void> initialize(List<TravelBook> books) async {
     String? stored;
+    var migrated = false;
     try {
       stored = await store.read();
       if (stored != null) {
         _value = UserPreferences.fromJson(jsonObject(jsonDecode(stored)));
       } else {
         _value = const LegacyMigration().migrate(legacyReader.read(), books);
-        if (_value.books.isNotEmpty) {
-          await store.write(jsonEncode(_value.toJson()));
-        }
+        migrated = _value.books.isNotEmpty;
       }
     } catch (_) {
-      _error = '未能读取本地资料。本次修改仍保留在内存，可导出备份。';
-      _readFailed = stored != null;
+      _readFailed = true;
       _recoveryRaw = stored;
+      _error = stored == null
+          ? '未能读取本地资料，已暂停自动保存。本次修改可导出备份；重新打开应用重试读取，或导入有效备份。'
+          : '本地资料格式无法读取，原始内容已保留。请导出恢复副本，或导入有效备份；本次修改可另行导出。';
+      _emit();
+      return;
+    }
+    _readFailed = false;
+    _error = null;
+    _recoveryRaw = null;
+    if (migrated) {
+      await _persist();
+      return;
     }
     _emit();
   }
@@ -68,7 +80,6 @@ class LocalPreferencesRepository implements PreferencesRepository {
     }
     _value = _value.update(id, edit(_value.forBook(id)));
     if (_readFailed) {
-      _error = '原始本地资料保留中；请先导出恢复副本，或导入有效备份。';
       _emit();
       return Future.value();
     }
@@ -109,6 +120,7 @@ class LocalPreferencesRepository implements PreferencesRepository {
         _recoveryRaw = null;
         _error = null;
         _revision++;
+        _replacementRevision++;
       } catch (_) {
         _error = '导入未完成，原有资料未被替换。';
         rethrow;

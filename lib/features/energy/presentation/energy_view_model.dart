@@ -1,4 +1,4 @@
-import '../../books/presentation/book_view_model.dart';
+import '../../books/book_feature_view_model.dart';
 import '../domain/energy_calculator.dart';
 
 class EnergyViewModel extends BookFeatureViewModel {

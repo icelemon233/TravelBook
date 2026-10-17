@@ -28,6 +28,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm verify:assets
+      - run: pnpm check:boundaries
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
@@ -62,6 +63,13 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get --enforce-lockfile
+      - name: Verify unsigned Android production build
+        run: flutter build apk --release --no-pub
+      - uses: actions/upload-artifact@v6
+        with:
+          name: travel-book-android-release-unsigned
+          path: build/app/outputs/flutter-apk/app-release*.apk
+          retention-days: 14
       - run: flutter build apk --debug --no-pub
       - run: sha256sum build/app/outputs/flutter-apk/app-debug.apk
       - uses: actions/upload-artifact@v6

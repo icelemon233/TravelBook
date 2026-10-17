@@ -9,6 +9,7 @@ import 'package:cinna_travel_book/features/map/domain/route_map.dart';
 
 class FakeFileActions implements FileActions {
   String? nextBackup;
+  int? lastPickMaxBytes;
   final saved = <({String name, String mime, Uint8List bytes})>[];
   final opened = <Uri>[];
   @override
@@ -17,7 +18,11 @@ class FakeFileActions implements FileActions {
   }
 
   @override
-  Future<String?> pickBackup() async => nextBackup;
+  Future<String?> pickBackup({required int maxBytes}) async {
+    lastPickMaxBytes = maxBytes;
+    return nextBackup;
+  }
+
   @override
   Future<void> printPdf(Uint8List bytes, String name) async {
     saved.add((name: name, mime: 'print', bytes: bytes));

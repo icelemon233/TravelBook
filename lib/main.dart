@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app/app_dependencies.dart';
 import 'app/travel_app.dart';
-import 'app/travel_theme.dart';
+import 'core/ui/travel_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

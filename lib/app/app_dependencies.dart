@@ -1,10 +1,9 @@
 import 'package:flutter/services.dart';
 
-import '../core/platform/bundle_reader.dart';
 import '../core/platform/file_actions.dart';
 import '../core/platform/platform_file_actions.dart';
-import '../core/platform/preferences_store.dart';
 import '../features/books/data/asset_trip_repository.dart';
+import '../features/books/data/bundle_asset_reader.dart';
 import '../features/books/domain/travel_book.dart';
 import '../features/books/domain/trip_repository.dart';
 import '../features/export/data/travel_pdf_service.dart';
@@ -12,6 +11,7 @@ import '../features/export/domain/travel_pdf_service.dart';
 import '../features/map/domain/map_snapshot_service.dart';
 import '../features/map/presentation/route_map_painter.dart';
 import '../features/preferences/data/local_preferences_repository.dart';
+import '../features/preferences/data/platform_preferences_store.dart';
 import '../features/preferences/domain/preferences_repository.dart';
 
 class AppDependencies {

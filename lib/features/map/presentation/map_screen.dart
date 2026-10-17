@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
+import '../../books/book_components.dart';
 import '../../books/domain/reference.dart';
-import '../../export/presentation/actions_view_model.dart';
+import '../../export/export_actions.dart';
 import 'map_view_model.dart';
 import 'route_map_painter.dart';
 
@@ -22,13 +24,33 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
+    _syncRoute();
+  }
+
+  @override
+  void didUpdateWidget(MapScreen old) {
+    super.didUpdateWidget(old);
+    if (old.initialDay != widget.initialDay) _syncRoute();
+  }
+
+  void _syncRoute() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         final model = context.read<MapViewModel>();
-        if (widget.initialDay != null) model.selectDay(widget.initialDay);
+        model.selectDay(widget.initialDay);
         unawaited(model.load());
       }
     });
+  }
+
+  void _selectDay(String? day) {
+    final bookId = context.read<MapViewModel>().book.id;
+    context.go(
+      Uri(
+        path: '/book/$bookId/map',
+        queryParameters: day == null ? null : {'day': day},
+      ).toString(),
+    );
   }
 
   @override
@@ -40,7 +62,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<MapViewModel>(),
-        actions = context.watch<ActionsViewModel>();
+        actions = context.watch<ExportActions>();
     final map = model.document, routes = model.routes;
     return TravelPage(
       children: [
@@ -67,7 +89,7 @@ class _MapScreenState extends State<MapScreen> {
             ChoiceChip(
               label: const Text('全部日期'),
               selected: model.selectedDay == null,
-              onSelected: (_) => model.selectDay(null),
+              onSelected: (_) => _selectDay(null),
             ),
             ...model.variant.days
                 .where((d) => !d.isPreparation)
@@ -79,7 +101,7 @@ class _MapScreenState extends State<MapScreen> {
                       radius: 4,
                     ),
                     selected: model.selectedDay == day.id,
-                    onSelected: (_) => model.selectDay(day.id),
+                    onSelected: (_) => _selectDay(day.id),
                   ),
                 ),
           ],

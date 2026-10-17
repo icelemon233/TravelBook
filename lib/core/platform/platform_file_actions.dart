@@ -43,7 +43,7 @@ class PlatformFileActions implements FileActions {
   }
 
   @override
-  Future<String?> pickBackup() async {
+  Future<String?> pickBackup({required int maxBytes}) async {
     final file = await openFile(
       acceptedTypeGroups: [
         const XTypeGroup(
@@ -55,8 +55,8 @@ class PlatformFileActions implements FileActions {
       ],
     );
     if (file == null) return null;
-    if (await file.length() > 2 * 1024 * 1024) {
-      throw const FormatException('备份文件超过2MB');
+    if (await file.length() > maxBytes) {
+      throw FormatException('备份文件超过${maxBytes ~/ (1024 * 1024)} MiB');
     }
     return file.readAsString();
   }

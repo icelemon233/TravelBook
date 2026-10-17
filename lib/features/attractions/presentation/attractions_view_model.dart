@@ -1,5 +1,5 @@
 import '../../books/domain/attraction.dart';
-import '../../books/presentation/book_view_model.dart';
+import '../../books/book_feature_view_model.dart';
 
 class AttractionsViewModel extends BookFeatureViewModel {
   AttractionsViewModel(super.bookModel, super.preferences);

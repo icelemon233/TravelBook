@@ -3,6 +3,7 @@ import 'package:cinna_travel_book/features/books/data/asset_trip_repository.dart
 import 'package:cinna_travel_book/features/books/presentation/book_view_model.dart';
 import 'package:cinna_travel_book/features/budget/presentation/budget_view_model.dart';
 import 'package:cinna_travel_book/features/export/presentation/actions_view_model.dart';
+import 'package:cinna_travel_book/features/export/domain/travel_report.dart';
 import 'package:cinna_travel_book/features/preferences/data/local_preferences_repository.dart';
 
 import 'platform_fakes.dart';
@@ -55,8 +56,13 @@ void main() {
         pdf: pdf,
         preferences: preferences,
         mapRenderer: FakeMapSnapshots(),
-        book: model,
-        budget: budget,
+        bookId: model.book.id,
+        readReport: () => TravelReport(
+          book: model.book,
+          variant: model.variant,
+          budget: budget.estimate,
+          preferences: preferences.snapshot.value.forBook(model.book.id),
+        ),
       );
       await actions.exportPdf();
       expect(actions.error, contains('预算参数'));

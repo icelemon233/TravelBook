@@ -1,7 +1,9 @@
 import '../../books/domain/preparation.dart';
-import '../../books/presentation/book_view_model.dart';
+import '../../books/book_feature_view_model.dart';
+import '../preparation_progress.dart';
 
-class PreparationViewModel extends BookFeatureViewModel {
+class PreparationViewModel extends BookFeatureViewModel
+    implements PreparationProgress {
   PreparationViewModel(super.bookModel, super.preferences);
   bool _onlyIncomplete = false;
   String _query = '';
@@ -11,7 +13,9 @@ class PreparationViewModel extends BookFeatureViewModel {
       book.tasks.map((t) => t.group).toSet().toList(growable: false);
   bool checked(String id) =>
       preferences.snapshot.value.forBook(book.id).checks[id] == true;
+  @override
   int get completed => book.tasks.where((t) => checked(t.id)).length;
+  @override
   int get total => book.tasks.length;
   List<PreparationTask> tasks(String group) => book.tasks
       .where(

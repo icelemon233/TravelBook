@@ -7,10 +7,14 @@ class PreferencesSnapshot {
     required this.saving,
     this.error,
     this.recoveryRaw,
+    this.replacementRevision = 0,
   });
   final UserPreferences value;
   final bool saving;
   final String? error, recoveryRaw;
+
+  /// Changes only when a validated import replaces the complete saved dataset.
+  final int replacementRevision;
 }
 
 abstract interface class PreferencesRepository {

@@ -1,15 +1,17 @@
 import '../../books/domain/budget_field.dart';
-import '../../books/presentation/book_view_model.dart';
+import '../../books/book_feature_view_model.dart';
+import '../budget_summary.dart';
 import '../domain/budget_calculator.dart';
 import '../domain/budget_labels.dart';
 
-class BudgetViewModel extends BookFeatureViewModel {
+class BudgetViewModel extends BookFeatureViewModel implements BudgetSummary {
   BudgetViewModel(
     super.bookModel,
     super.preferences, {
     this.calculator = const BudgetCalculator(),
-  });
+  }) : _replacementRevision = preferences.snapshot.replacementRevision;
   final BudgetCalculator calculator;
+  int _replacementRevision;
   final _drafts = <String, String>{};
   List<BudgetField> get fields => calculator.activeFields(book, variant);
   List<String> get groups =>
@@ -29,7 +31,9 @@ class BudgetViewModel extends BookFeatureViewModel {
     return Map.unmodifiable(result);
   }
 
+  @override
   BudgetEstimate get estimate => calculator.estimate(book, variant, values);
+  @override
   ReturnComparison? get returnComparison =>
       calculator.compareReturns(book, variant, values);
   String input(BudgetField field) {
@@ -62,6 +66,16 @@ class BudgetViewModel extends BookFeatureViewModel {
   Future<void> reset() async {
     _drafts.clear();
     await preferences.updateBook(book.id, (p) => p.resetBudget());
+  }
+
+  @override
+  void onPreferencesChanged() {
+    final revision = preferences.snapshot.replacementRevision;
+    if (revision != _replacementRevision) {
+      _replacementRevision = revision;
+      _drafts.clear();
+    }
+    super.onPreferencesChanged();
   }
 
   @override

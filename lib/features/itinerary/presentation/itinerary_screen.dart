@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/travel_theme.dart';
+import '../../../core/ui/travel_theme.dart';
 import '../../../core/ui/page_components.dart';
+import '../../books/book_components.dart';
 import '../../../core/ui/value_editor.dart';
 import '../../books/domain/travel_day.dart';
 import 'itinerary_view_model.dart';

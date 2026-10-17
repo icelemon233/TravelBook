@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:characters/characters.dart';
 
 import '../../../core/json_values.dart';
+import 'backup_limits.dart';
 
 class BookPreferences {
   BookPreferences({
@@ -130,15 +131,22 @@ class UserPreferences {
     'schemaVersion': 1,
     'books': books.map((k, v) => MapEntry(k, v.toJson())),
   };
-  String backup() => const JsonEncoder.withIndent('  ').convert({
-    'format': 'cinna-travel-book',
-    'version': 1,
-    'exportedAt': DateTime.now().toUtc().toIso8601String(),
-    'data': toJson(),
-  });
+  String backup() {
+    final source = const JsonEncoder.withIndent('  ').convert({
+      'format': 'cinna-travel-book',
+      'version': 1,
+      'exportedAt': DateTime.now().toUtc().toIso8601String(),
+      'data': toJson(),
+    });
+    if (utf8.encode(source).length > BackupLimits.maxBytes) {
+      throw const FormatException(BackupLimits.exceededMessage);
+    }
+    return source;
+  }
+
   static UserPreferences import(String source) {
-    if (utf8.encode(source).length > 2 * 1024 * 1024) {
-      throw const FormatException('备份文件超过2MB');
+    if (utf8.encode(source).length > BackupLimits.maxBytes) {
+      throw const FormatException(BackupLimits.exceededMessage);
     }
     final Json json;
     try {

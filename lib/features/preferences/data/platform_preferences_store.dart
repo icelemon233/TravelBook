@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/preferences/domain/preferences_repository.dart';
+import '../domain/preferences_repository.dart';
 import 'legacy_values.dart';
 
 class SharedPreferencesStore implements PreferencesStore {

@@ -8,11 +8,14 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../features/export/presentation/actions_view_model.dart';
+import '../features/export/export_actions.dart';
+import '../features/books/reference_actions.dart';
 import '../features/library/presentation/library_view_model.dart';
 import '../features/preferences/presentation/preferences_status_view_model.dart';
+import '../features/preferences/preferences_status.dart';
 import 'app_dependencies.dart';
 import 'app_router.dart';
-import 'travel_theme.dart';
+import '../core/ui/travel_theme.dart';
 
 class TravelApp extends StatefulWidget {
   const TravelApp({
@@ -66,7 +69,10 @@ class _TravelAppState extends State<TravelApp> with WidgetsBindingObserver {
         create: (_) =>
             PreferencesStatusViewModel(widget.dependencies.preferences),
       ),
-      ChangeNotifierProvider(
+      ListenableProvider<PreferencesStatus>(
+        create: (c) => c.read<PreferencesStatusViewModel>(),
+      ),
+      ChangeNotifierProvider<ExportActions>(
         create: (_) => ActionsViewModel(
           files: widget.dependencies.files,
           pdf: widget.dependencies.pdf,
@@ -74,6 +80,7 @@ class _TravelAppState extends State<TravelApp> with WidgetsBindingObserver {
           mapRenderer: widget.dependencies.mapSnapshots,
         ),
       ),
+      Provider<ReferenceActions>(create: (c) => c.read<ExportActions>()),
     ],
     child: MaterialApp.router(
       debugShowCheckedModeBanner: false,

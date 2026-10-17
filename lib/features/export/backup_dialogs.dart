@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../features/export/presentation/actions_view_model.dart';
+import 'export_actions.dart';
 
 Future<void> requestBackupImport(
   BuildContext context,
-  ActionsViewModel actions,
+  ExportActions actions,
 ) async {
   final confirmed = await showDialog<bool>(
     context: context,
@@ -28,7 +28,7 @@ Future<void> requestBackupImport(
 
 Future<void> requestBackupPaste(
   BuildContext context,
-  ActionsViewModel actions,
+  ExportActions actions,
 ) async {
   final controller = TextEditingController();
   final content = await showDialog<String>(

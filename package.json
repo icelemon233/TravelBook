@@ -8,6 +8,7 @@
   "scripts": {
     "export:legacy": "node tools/export-legacy.mjs",
     "verify:assets": "node tools/export-legacy.mjs --check",
+    "check:boundaries": "node tools/check-boundaries.mjs",
     "dev": "node tools/serve-web.mjs",
     "deploy": "node tools/deploy.mjs"
   },

@@ -1,7 +1,18 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+val releaseKeysFile = rootProject.file("key.properties")
+val releaseKeys = Properties().apply {
+    if (releaseKeysFile.exists()) releaseKeysFile.inputStream().use { load(it) }
+}
+val releaseKeyNames = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+if (releaseKeysFile.exists() && releaseKeyNames.any { releaseKeys.getProperty(it).isNullOrBlank() }) {
+    throw GradleException("key.properties must contain all four release signing values.")
 }
 
 android {
@@ -15,7 +26,6 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "top.icelemon.cinna_travel_book"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
@@ -29,11 +39,22 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (releaseKeysFile.exists()) {
+            create("release") {
+                storeFile = file(releaseKeys.getProperty("storeFile"))
+                storePassword = releaseKeys.getProperty("storePassword")
+                keyAlias = releaseKeys.getProperty("keyAlias")
+                keyPassword = releaseKeys.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // CI validates unsigned production code. Local signing is optional,
+            // explicit, and never falls back to the development key.
+            signingConfig = if (releaseKeysFile.exists()) signingConfigs.getByName("release") else null
         }
     }
 }

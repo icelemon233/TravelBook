@@ -1,0 +1,6 @@
+# Copy to android/key.properties only when configuring a private release key.
+# Use an absolute path to a keystore kept outside the repository.
+storeFile=/absolute/path/to/upload-keystore.jks
+storePassword=REPLACE_LOCALLY
+keyAlias=upload
+keyPassword=REPLACE_LOCALLY
