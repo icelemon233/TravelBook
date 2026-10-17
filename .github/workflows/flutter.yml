@@ -64,13 +64,18 @@ jobs:
           cache: true
       - run: flutter pub get --enforce-lockfile
       - name: Verify unsigned Android production build
-        run: flutter build apk --release --no-pub
+        run: |
+          flutter build apk --release
+          git diff --exit-code -- pubspec.lock
       - uses: actions/upload-artifact@v6
         with:
           name: travel-book-android-release-unsigned
           path: build/app/outputs/flutter-apk/app-release*.apk
           retention-days: 14
-      - run: flutter build apk --debug --no-pub
+      - name: Build Android development app with debug plugin registration
+        run: |
+          flutter build apk --debug
+          git diff --exit-code -- pubspec.lock
       - run: sha256sum build/app/outputs/flutter-apk/app-debug.apk
       - uses: actions/upload-artifact@v6
         with:

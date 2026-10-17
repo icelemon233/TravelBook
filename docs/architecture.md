@@ -54,6 +54,8 @@ Web 首次启动兼容 `cinna-ganwan-v1`、`tibet-checklist-personal-v2` 和旧 
 
 Android 同时生成开发包和未签名 Release 包；iOS 生成模拟器和未签名设备构建，Web 生成生产构建。Android Release 没有 debug 签名回退；本地存在完整的 `android/key.properties` 时才使用专用 release 签名，文件格式见 `android/key.properties.example`。签名材料不进入仓库或 CI 缓存。模拟器构建、单测和浏览器检查不能代替真机文件分享、系统打印或正式签名/上架验收。
 
+固定版本的 Flutter 在 Android 的 `--no-pub` 构建中会跳过按构建模式生成插件注册文件，见官方 [#169336](https://github.com/flutter/flutter/issues/169336)。CI 先执行 `flutter pub get --enforce-lockfile`，随后使用普通的 `flutter build apk --release` / `--debug` 切换注册内容；每次构建后检查 `pubspec.lock` 完全未变。这样生产包不引用 integration_test，模拟器测试仍能注册开发插件。
+
 参考：[Flutter 架构建议](https://docs.flutter.dev/app-architecture/recommendations)、[架构指南](https://docs.flutter.dev/app-architecture/guide)、[自适应布局](https://docs.flutter.dev/ui/adaptive-responsive)。
 
 原生 smoke test 使用真实资产、SharedPreferences 平台插件和 Canvas 渲染。只有明确传入 `NATIVE_TEST_DISPOSABLE=true` 才会执行，且会在结束时恢复测试前的资料；不能在个人常用设备上运行。
