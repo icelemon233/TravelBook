@@ -1,6 +1,8 @@
-# Cinna Travel Book
+<p align="center"><img src="./docs/brand/cinna-app-icon.png" alt="Cinna Travel Book Cinna icon" width="128"></p>
 
-English | [简体中文](README.zh-CN.md)
+<h1 align="center">Cinna Travel Book</h1>
+
+<p align="center">English · <a href="./README.zh-CN.md">简体中文</a></p>
 
 Road-trip books for **Android, iOS, and Web**, built from one Flutter codebase. Daily plans, road maps, stays, budgets, notes, and preparation checklists stay together.
 

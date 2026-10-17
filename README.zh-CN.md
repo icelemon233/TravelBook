@@ -1,6 +1,8 @@
-# Cinna Travel Book
+<p align="center"><img src="./docs/brand/cinna-app-icon.png" alt="Cinna Travel Book Cinna icon" width="128"></p>
 
-[English](README.md) | 简体中文
+<h1 align="center">Cinna Travel Book</h1>
+
+<p align="center"><a href="./README.md">English</a> · 简体中文</p>
 
 Android、iOS、Web 共用的 Flutter 旅行路书，合并 `cinna-travel` 与 `cinna-travel-archive`。完整迁移赣皖自驾攻略和西藏路书，保留原数据、图片、参考来源与 Git 历史。
 
