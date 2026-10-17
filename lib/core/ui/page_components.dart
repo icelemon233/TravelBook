@@ -45,7 +45,7 @@ class PageHeading extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '$number / CINNA TRAVEL BOOK',
+          '$number / TravelBook',
           style: const TextStyle(
             fontSize: 11,
             letterSpacing: 1.4,

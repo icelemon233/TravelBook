@@ -20,8 +20,8 @@ class BundledTravelPdfService implements TravelPdfService {
       await bundle.load('assets/fonts/NotoSansSC-Regular.ttf'),
     );
     final doc = pw.Document(
-      title: 'Cinna Travel Book · ${r.book.title}',
-      author: 'Cinna Travel Book',
+      title: 'TravelBook · ${r.book.title}',
+      author: 'Cinna',
       creator: 'Flutter travel book',
     );
     final style = pw.TextStyle(
@@ -32,7 +32,7 @@ class BundledTravelPdfService implements TravelPdfService {
     );
     final widgets = <pw.Widget>[
       pw.Text(
-        'CINNA TRAVEL BOOK',
+        'TravelBook',
         style: pw.TextStyle(font: _font, fontSize: 11, color: _forest),
       ),
       pw.SizedBox(height: 14),
@@ -159,7 +159,7 @@ class BundledTravelPdfService implements TravelPdfService {
             border: pw.Border(bottom: pw.BorderSide(color: _light)),
           ),
           child: pw.Text(
-            'Cinna Travel Book · ${r.book.title}',
+            'TravelBook · ${r.book.title}',
             style: pw.TextStyle(font: _font, fontSize: 8, color: _forest),
           ),
         ),

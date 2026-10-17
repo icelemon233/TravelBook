@@ -12,5 +12,8 @@
     "dev": "node tools/serve-web.mjs",
     "deploy": "node tools/deploy.mjs"
   },
-  "devDependencies": {"esbuild": "0.28.2"}
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "author": "Cinna"
 }

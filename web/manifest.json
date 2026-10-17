@@ -1,6 +1,6 @@
 {
-  "name": "Cinna Travel Book",
-  "short_name": "Cinna 旅行册",
+  "name": "TravelBook",
+  "short_name": "TravelBook",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

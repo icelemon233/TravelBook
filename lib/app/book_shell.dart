@@ -59,7 +59,7 @@ class BookShell extends StatelessWidget {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const Text(
-              'CINNA / TRAVEL BOOK',
+              'TravelBook',
               style: TextStyle(
                 fontSize: 9,
                 letterSpacing: 1.2,

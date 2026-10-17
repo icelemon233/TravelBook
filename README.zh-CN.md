@@ -1,12 +1,12 @@
-<p align="center"><img src="./docs/brand/cinna-app-icon.png" alt="Cinna Travel Book Cinna icon" width="128"></p>
+<p align="center"><img src="./docs/brand/cinna-app-icon.png" alt="TravelBook icon" width="128"></p>
 
-<h1 align="center">Cinna Travel Book</h1>
+<h1 align="center">TravelBook</h1>
 
 <p align="center"><a href="./README.md">English</a> · 简体中文</p>
 
 Android、iOS、Web 共用的 Flutter 旅行路书，合并 `cinna-travel` 与 `cinna-travel-archive`。完整迁移赣皖自驾攻略和西藏路书，保留原数据、图片、参考来源与 Git 历史。
 
-Web 发布地址：[icelemon233.github.io/cinna-travel-book](https://icelemon233.github.io/cinna-travel-book/)。原西藏入口位于新站的 `tibet/`，跳转到对应 Flutter 页面。
+Web 发布地址：[icelemon233.github.io/cinna-travel-book](https://icelemon233.github.io/TravelBook/)。原西藏入口位于新站的 `tibet/`，跳转到对应 Flutter 页面。
 
 ## 功能
 
@@ -67,12 +67,12 @@ Android 构建需 Android SDK/JDK；iOS 构建需 macOS/Xcode。当前 CI 同时
 flutter build apk --debug --no-pub
 flutter build ios --simulator --debug --no-codesign --no-pub
 flutter build ios --release --no-codesign --no-pub
-flutter build web --release --no-pub --base-href /cinna-travel-book/ --no-web-resources-cdn --no-wasm-dry-run
+flutter build web --release --no-pub --base-href /TravelBook/ --no-web-resources-cdn --no-wasm-dry-run
 node tools/prepare-web.mjs
 node tools/serve-web.mjs
 ```
 
-预览为 `http://127.0.0.1:18760/cinna-travel-book/`。Web 采用 hash 路由，例如 `#/book/tibet/itinerary?day=10%2F1`。iOS 未签名构建不能直接安装到 iPhone；正式签名、系统分享/打印和上架需要实际设备验收。
+预览为 `http://127.0.0.1:18760/TravelBook/`。Web 采用 hash 路由，例如 `#/book/tibet/itinerary?day=10%2F1`。iOS 未签名构建不能直接安装到 iPhone；正式签名、系统分享/打印和上架需要实际设备验收。
 
 ## 旧数据与历史
 
@@ -95,3 +95,5 @@ Web 自动兼容同一 origin 下的 `cinna-ganwan-v1`、`tibet-checklist-person
 推送 `main` 后，GitHub Actions 在代码检查及三端构建通过后自动发布 GitHub Pages。`deployment.json` 记录源提交和静态文件 SHA-256，发布后需核对线上状态。也可用 `pnpm deploy` 查看或触发当前 main 的发布流程，需要已认证的 GitHub CLI。
 
 公路与湖泊数据 © OpenStreetMap contributors，ODbL；路线参考 OSRM。赣皖照片按各自 CC 授权保留原文件、作者与来源，在页面按比例裁切显示。西藏原有生成配图明确标注为 AI 意境素材。中文字体为 Noto Sans SC（SIL OFL 1.1）；PDF.js 为 Apache-2.0。授权与来源文件随资源保留。
+
+开发者：Cinna。

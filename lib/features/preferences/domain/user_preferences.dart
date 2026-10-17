@@ -156,7 +156,7 @@ class UserPreferences {
     }
     if (json.text('format') != 'cinna-travel-book' ||
         json.number('version') != 1) {
-      throw const FormatException('请选择 Cinna Travel Book 备份文件');
+      throw const FormatException('请选择 TravelBook 备份文件');
     }
     try {
       return UserPreferences.fromJson(json.object('data'));

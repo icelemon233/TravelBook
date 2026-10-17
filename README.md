@@ -1,12 +1,12 @@
-<p align="center"><img src="./docs/brand/cinna-app-icon.png" alt="Cinna Travel Book Cinna icon" width="128"></p>
+<p align="center"><img src="./docs/brand/cinna-app-icon.png" alt="TravelBook icon" width="128"></p>
 
-<h1 align="center">Cinna Travel Book</h1>
+<h1 align="center">TravelBook</h1>
 
 <p align="center">English · <a href="./README.zh-CN.md">简体中文</a></p>
 
 Road-trip books for **Android, iOS, and Web**, built from one Flutter codebase. Daily plans, road maps, stays, budgets, notes, and preparation checklists stay together.
 
-[Open the travel books](https://icelemon233.github.io/cinna-travel-book/)
+[Open the travel books](https://icelemon233.github.io/TravelBook/)
 
 ## Using a book
 
@@ -38,12 +38,12 @@ Android builds require the Android SDK and JDK. iOS builds require macOS and Xco
 flutter build apk --debug --no-pub
 flutter build ios --simulator --debug --no-codesign --no-pub
 flutter build ios --release --no-codesign --no-pub
-flutter build web --release --no-pub --base-href /cinna-travel-book/ --no-web-resources-cdn --no-wasm-dry-run
+flutter build web --release --no-pub --base-href /TravelBook/ --no-web-resources-cdn --no-wasm-dry-run
 node tools/prepare-web.mjs
 node tools/serve-web.mjs
 ```
 
-The built Web preview runs at [localhost:18760/cinna-travel-book](http://localhost:18760/cinna-travel-book/). Hash routes work under GitHub Pages, including links such as `#/book/tibet/itinerary?day=10%2F1`.
+The built Web preview runs at [localhost:18760/cinna-travel-book](http://localhost:18760/TravelBook/). Hash routes work under GitHub Pages, including links such as `#/book/tibet/itinerary?day=10%2F1`.
 
 ## Architecture and verification
 
@@ -73,3 +73,5 @@ Pushing `main` publishes Flutter Web after quality checks and all platform build
 ## Attribution
 
 Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), under ODbL; road routes include OSRM references. Photos retain their authors, licences, and source links. Noto Sans SC is distributed under SIL OFL 1.1, and the bundled PDF.js runtime uses Apache-2.0. Project code remains [MIT-licensed](LICENSE).
+
+Developer: Cinna.

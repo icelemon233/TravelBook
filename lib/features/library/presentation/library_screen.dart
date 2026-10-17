@@ -23,7 +23,7 @@ class LibraryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'CINNA / TRAVEL BOOK',
+          'TravelBook',
           style: TextStyle(fontSize: 16, letterSpacing: 1.2),
         ),
         actions: [
@@ -169,7 +169,7 @@ class LibraryScreen extends StatelessWidget {
           if (actions.message != null) Notice(actions.message!),
           const SizedBox(height: 16),
           const Text(
-            'Cinna Travel Book · 旅行资料与本地记录',
+            'TravelBook · 旅行资料与本地记录',
             style: TextStyle(fontSize: 11, color: TravelTheme.muted),
           ),
         ],

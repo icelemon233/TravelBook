@@ -143,7 +143,7 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get --enforce-lockfile
-      - run: flutter build web --release --no-pub --base-href /cinna-travel-book/ --no-web-resources-cdn --no-wasm-dry-run
+      - run: flutter build web --release --no-pub --base-href /TravelBook/ --no-web-resources-cdn --no-wasm-dry-run
       - run: node tools/prepare-web.mjs
       - uses: actions/upload-artifact@v6
         with:

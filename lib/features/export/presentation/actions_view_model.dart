@@ -36,7 +36,7 @@ class ActionsViewModel extends ExportActions {
   @override
   String? message;
   String _name(String extension) =>
-      'cinna-${bookId ?? 'travel-book'}-${DateTime.now().toIso8601String().substring(0, 10)}.$extension';
+      'TravelBook-${bookId ?? 'travel-book'}-${DateTime.now().toIso8601String().substring(0, 10)}.$extension';
   Future<void> _run(Future<void> Function() action, {String? success}) async {
     if (busy) return;
     busy = true;
@@ -88,7 +88,7 @@ class ActionsViewModel extends ExportActions {
     if (raw == null) return;
     await files.save(
       Uint8List.fromList(utf8.encode(raw)),
-      'cinna-recovery-original.txt',
+      'TravelBook-recovery-original.txt',
       'text/plain',
       origin: origin,
     );

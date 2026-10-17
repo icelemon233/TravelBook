@@ -84,7 +84,7 @@ class _TravelAppState extends State<TravelApp> with WidgetsBindingObserver {
     ],
     child: MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Cinna Travel Book',
+      title: 'TravelBook',
       theme: TravelTheme.light,
       locale: const Locale('zh', 'CN'),
       supportedLocales: const [Locale('zh', 'CN'), Locale('en')],

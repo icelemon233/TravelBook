@@ -47,7 +47,7 @@ class PlatformFileActions implements FileActions {
     final file = await openFile(
       acceptedTypeGroups: [
         const XTypeGroup(
-          label: 'Cinna Travel Book 备份',
+          label: 'TravelBook 备份',
           extensions: ['json'],
           mimeTypes: ['application/json'],
           uniformTypeIdentifiers: ['public.json'],
