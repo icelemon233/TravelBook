@@ -52,6 +52,8 @@ Web 首次启动兼容 `cinna-ganwan-v1`、`tibet-checklist-personal-v2` 和旧 
 
 三端 CI 使用锁定依赖与 Flutter 3.47.7。`pnpm check:boundaries` 检查 core 的依赖方向、跨功能公开入口和领域层依赖；与 format、analyze、unit/widget 测试及资源一致性一起执行。
 
+push 只修改 README、AGENTS 或 docs 时不启动三端构建，也不会取消正在进行的应用验收。PR 和手动触发仍执行完整检查；应用、资产、依赖和工作流变更仍触发三端构建及验证后的发布。
+
 Android 同时生成开发包和未签名 Release 包；iOS 生成模拟器和未签名设备构建，Web 生成生产构建。Android Release 没有 debug 签名回退；本地存在完整的 `android/key.properties` 时才使用专用 release 签名，文件格式见 `android/key.properties.example`。签名材料不进入仓库或 CI 缓存。模拟器构建、单测和浏览器检查不能代替真机文件分享、系统打印或正式签名/上架验收。
 
 固定版本的 Flutter 在 Android 的 `--no-pub` 构建中会跳过按构建模式生成插件注册文件，见官方 [#169336](https://github.com/flutter/flutter/issues/169336)。CI 先执行 `flutter pub get --enforce-lockfile`，随后使用普通的 `flutter build apk --release` / `--debug` 切换注册内容；每次构建后检查 `pubspec.lock` 完全未变。这样生产包不引用 integration_test，模拟器测试仍能注册开发插件。

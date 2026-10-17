@@ -2,6 +2,10 @@ name: Travel Book Android iOS Web
 on:
   push:
     branches: [main, 'codex/flutter-travel-book-*']
+    paths-ignore:
+      - 'README*.md'
+      - 'AGENTS.md'
+      - 'docs/**'
   pull_request:
   workflow_dispatch:
 permissions:
